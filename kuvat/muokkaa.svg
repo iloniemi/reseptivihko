@@ -16,7 +16,7 @@
    version="1.1"
    id="svg8"
    inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
-   sodipodi:docname="uusi_resepti.svg">
+   sodipodi:docname="muokkaa.svg">
   <defs
      id="defs2">
     <inkscape:perspective
@@ -42,9 +42,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.9248787"
-     inkscape:cx="187.59406"
-     inkscape:cy="81.787938"
+     inkscape:zoom="0.46243935"
+     inkscape:cx="137.03828"
+     inkscape:cy="125.26616"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -65,7 +65,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -115,22 +115,22 @@
          y="43.393852"
          style="stroke-width:0.26458332" /></text>
     <rect
-       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.48694658;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect859-1-7"
        width="90.783951"
-       height="95.591805"
+       height="90.665756"
        x="100.40144"
-       y="36.129055" />
+       y="41.055099" />
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52777767px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
-       x="101.62156"
-       y="28.327938"
+       x="101.6216"
+       y="27.798771"
        id="text1022"><tspan
          sodipodi:role="line"
          id="tspan1020"
-         x="101.62156"
-         y="28.327938"
+         x="101.6216"
+         y="27.798771"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52777767px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:0.26458332">Reseptin nimi</tspan></text>
     <rect
        style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.40412453;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
@@ -148,7 +148,7 @@
        y="34.361301" />
     <g
        id="g967"
-       transform="translate(139.17177,-3.0342681)">
+       transform="translate(136.69146,-3.292823)">
       <rect
          y="26.401993"
          x="30.597786"
@@ -239,18 +239,18 @@
        id="rect863-8"
        width="30.839607"
        height="5.9634209"
-       x="127.39309"
-       y="24.372988" />
+       x="127.39308"
+       y="23.843819" />
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52777767px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
        x="100.62672"
-       y="34.194191"
+       y="39.485859"
        id="text1022-5"><tspan
          sodipodi:role="line"
          id="tspan1020-92"
          x="100.62672"
-         y="34.194191"
+         y="39.485859"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52777767px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:0.26458332">Työohjeet</tspan></text>
     <text
        xml:space="preserve"
@@ -579,6 +579,28 @@
            x="40.542282"
            id="tspan1135-0-7-7-9-6"
            sodipodi:role="line">kpl</tspan></text>
+    </g>
+    <g
+       id="g934"
+       transform="translate(-0.5234578,-1.7164413)">
+      <rect
+         y="34.641396"
+         x="167.8127"
+         height="6.4137053"
+         width="23.372698"
+         id="rect861-2-2"
+         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <text
+         id="text871-9-7"
+         y="39.68948"
+         x="179.48216"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.41057372;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke:none;stroke-width:0.41057372;stroke-opacity:1"
+           y="39.68948"
+           x="179.48216"
+           id="tspan869-2-7"
+           sodipodi:role="line">Poista</tspan></text>
     </g>
   </g>
 </svg>
