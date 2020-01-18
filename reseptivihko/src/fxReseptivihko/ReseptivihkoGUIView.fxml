@@ -58,7 +58,8 @@
                      </padding></Label>
                   <TextField text="sukl" />
                   <ListChooser rivit="tumma suklaa&#10;maitosuklaa" VBox.vgrow="ALWAYS" />
-                  <Label text="Valitut">
+                  <Button mnemonicParsing="false" text="Lisää" />
+                  <Label text="Valitut ainesosat">
                      <padding>
                         <Insets top="5.0" />
                      </padding></Label>
@@ -71,6 +72,12 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" />
                </padding>
                <children>
+                  <HBox>
+                     <children>
+                        <Button mnemonicParsing="false" text="Uusi resepti" />
+                        <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Muokkaa reseptiä" />
+                     </children>
+                  </HBox>
                   <Label text="Reseptit" />
                   <ListChooser rivit="Mutakakku&#10;Suklaatryffelit" VBox.vgrow="ALWAYS" />
                </children>
