@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<HBox prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxReseptivihko.ReseptivihkoGUILisaysController">
    <children>
       <VBox prefWidth="150.0">
          <children>
@@ -40,7 +40,7 @@
             <Insets bottom="5.0" right="5.0" />
          </padding>
          <children>
-            <Button mnemonicParsing="false" prefWidth="300.0" text="Lisää">
+            <Button fx:id="buttonLisaaRivi" onAction="#lisaaAinesosarivi" mnemonicParsing="false" prefWidth="300.0" text="Lisää">
                <VBox.margin>
                   <Insets bottom="5.0" />
                </VBox.margin>

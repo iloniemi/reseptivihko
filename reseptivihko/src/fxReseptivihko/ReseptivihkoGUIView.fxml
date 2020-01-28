@@ -14,30 +14,28 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxReseptivihko.ReseptivihkoGUIController">
    <children>
       <MenuBar>
         <menus>
           <Menu mnemonicParsing="false" text="Tiedosto">
             <items>
-              <MenuItem mnemonicParsing="false" text="Tallenna" />
-                  <MenuItem mnemonicParsing="false" text="Avaa..." />
-                  <MenuItem mnemonicParsing="false" text="Tulosta..." />
-                  <MenuItem mnemonicParsing="false" text="Vie..." />
-                  <MenuItem mnemonicParsing="false" text="Tuo..." />
-                  <MenuItem mnemonicParsing="false" text="Lopeta" />
+              <MenuItem fx:id="menuTallenna" onAction="#tallenna" mnemonicParsing="false" text="Tallenna" />
+              <MenuItem fx:id="menuAvaa" onAction="#avaaReseptivihko" mnemonicParsing="false" text="Avaa..." />
+              <MenuItem fx:id="menuTulosta" onAction="#tulostaResepti" mnemonicParsing="false" text="Tulosta..." />
+              <MenuItem fx:id="menuLopeta" onAction="#lopeta" mnemonicParsing="false" text="Lopeta" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Muokkaa">
             <items>
-              <MenuItem mnemonicParsing="false" text="Lisää resepti..." />
-                  <MenuItem mnemonicParsing="false" text="Muokkaa reseptiä..." />
+              <MenuItem fx:id="menuReseptiUusi" onAction="#uusiResepti" mnemonicParsing="false" text="Lisää resepti..." />
+              <MenuItem fx:id="menuReseptiMuokkaa" onAction="#muokkaaReseptia" mnemonicParsing="false" text="Muokkaa reseptiä..." />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Apua">
             <items>
-              <MenuItem mnemonicParsing="false" text="Apua..." />
-                  <MenuItem mnemonicParsing="false" text="Tietoja..." />
+              <MenuItem fx:id="menuApua" onAction="#apua" mnemonicParsing="false" text="Apua..." />
+              <MenuItem fx:id="menuTietoja" onAction="#tietoja" mnemonicParsing="false" text="Tietoja..." />
             </items>
           </Menu>
         </menus>
@@ -51,20 +49,20 @@
                <children>
                   <Label text="Nimellä haku" />
                   <TextField text="t" />
-                  <Button mnemonicParsing="false" text="Hae" />
+                  <Button fx:id="buttonHaku" onAction="#haeReseptit" mnemonicParsing="false" text="Hae" />
                   <Label text="Ainesosahaku">
                      <padding>
                         <Insets top="5.0" />
                      </padding></Label>
-                  <TextField text="sukl" />
+                  <TextField fx:id="textAinesosa" onKeyReleased="#paivitaAinesosat" text="sukl" />
                   <ListChooser rivit="tumma suklaa&#10;maitosuklaa" VBox.vgrow="ALWAYS" />
-                  <Button mnemonicParsing="false" text="Lisää" />
+                  <Button fx:id="buttonAinesosatLisaa" onAction="#lisaaAinesosa" mnemonicParsing="false" text="Lisää" />
                   <Label text="Valitut ainesosat">
                      <padding>
                         <Insets top="5.0" />
                      </padding></Label>
                   <ListChooser layoutX="15.0" layoutY="94.0" rivit="voi" />
-                  <Button layoutX="15.0" layoutY="52.0" mnemonicParsing="false" text="Poista" />
+                  <Button fx:id="buttonAinesosatPoista" onAction="#poistaAinesosa" layoutX="15.0" layoutY="52.0" mnemonicParsing="false" text="Poista" />
                </children>
             </VBox>
             <VBox layoutX="10.0" layoutY="10.0" prefWidth="200.0">
@@ -74,12 +72,12 @@
                <children>
                   <HBox>
                      <children>
-                        <Button mnemonicParsing="false" text="Uusi resepti" />
-                        <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Muokkaa reseptiä" />
+                        <Button fx:id="buttonReseptiUusi" onAction="#uusiResepti" mnemonicParsing="false" text="Uusi resepti" />
+                        <Button fx:id="buttonReseptiMuokkaa" onAction="#muokkaaReseptia" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Muokkaa reseptiä" />
                      </children>
                   </HBox>
                   <Label text="Reseptit" />
-                  <ListChooser rivit="Mutakakku&#10;Suklaatryffelit" VBox.vgrow="ALWAYS" />
+                  <ListChooser fx:id="listReseptit" onMouseReleased="#naytaResepti" rivit="Mutakakku&#10;Suklaatryffelit" VBox.vgrow="ALWAYS" />
                </children>
             </VBox>
             <VBox layoutX="10.0" layoutY="10.0">
@@ -102,7 +100,7 @@
                                        <HBox.margin>
                                           <Insets right="5.0" />
                                        </HBox.margin></Label>
-                                    <TextField prefWidth="50.0" text="1.0" />
+                                    <TextField fx:id="textKerroin" onKeyReleased="#paivitaMaarat" prefWidth="50.0" text="1.0" />
                                  </children>
                               </HBox>
                            </children>
