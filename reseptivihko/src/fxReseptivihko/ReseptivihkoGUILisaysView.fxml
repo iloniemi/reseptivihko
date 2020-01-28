@@ -11,14 +11,10 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
 <HBox prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox prefWidth="150.0">
          <children>
-            <Label text="Ainesosat" />
-            <TextField text="leivin" />
-            <ListChooser rivit="leivinjauhe" />
             <Label layoutX="10.0" layoutY="10.0" text="Määrä">
                <padding>
                   <Insets top="5.0" />
@@ -31,7 +27,9 @@
                </padding>
             </Label>
             <TextField layoutX="10.0" layoutY="368.0" text="l" />
-            <ListChooser layoutX="10.0" layoutY="52.0" rivit="dl&#10;l&#10;rkl&#10;tl" />
+            <Label text="Ainesosa" />
+            <TextField text="leivin" />
+            <ListChooser rivit="leivinjauhe" />
          </children>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" />
