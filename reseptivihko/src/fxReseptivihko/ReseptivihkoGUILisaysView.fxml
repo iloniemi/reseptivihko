@@ -28,8 +28,9 @@
             </Label>
             <TextField layoutX="10.0" layoutY="368.0" text="l" />
             <Label text="Ainesosa" />
-            <TextField text="leivin" />
-            <ListChooser rivit="leivinjauhe" />
+            <TextField fx:id="textAinesosa" text="leivin" />
+            <ListChooser fx:id="chooserAinesosat" rivit="leivinjauhe" />
+            <Button fx:id="buttonAinesosatMuokkaa" mnemonicParsing="false" onAction="#muokkaaAinesosat" text="Muokkaa ainesosia" />
          </children>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" />
@@ -40,12 +41,12 @@
             <Insets bottom="5.0" right="5.0" />
          </padding>
          <children>
-            <Button fx:id="buttonLisaaRivi" onAction="#lisaaAinesosarivi" mnemonicParsing="false" prefWidth="300.0" text="Lisää">
+            <Button fx:id="buttonLisaaRivi" mnemonicParsing="false" onAction="#lisaaAinesosarivi" prefWidth="300.0" text="Lisää">
                <VBox.margin>
                   <Insets bottom="5.0" />
                </VBox.margin>
             </Button>
-            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefWidth="300.0" text="Poista">
+            <Button fx:id="buttonPoistaRivi" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#poistaAinesosarivi" prefWidth="300.0" text="Poista">
                <VBox.margin>
                   <Insets bottom="5.0" />
                </VBox.margin>

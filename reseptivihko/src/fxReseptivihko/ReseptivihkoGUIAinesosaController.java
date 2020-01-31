@@ -1,24 +1,27 @@
 package fxReseptivihko;
 
 import fi.jyu.mit.fxgui.Dialogs;
-import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import javafx.fxml.FXML;
 
-public class ReseptivihkoGUILisaysController implements ModalControllerInterface<String> {
-    
+/**
+ * @author Juho
+ * @version 31 Jan 2020
+ * 
+ */
+public class ReseptivihkoGUIAinesosaController implements ModalControllerInterface<String> {
     @FXML
-    private void lisaaAinesosarivi() {
+    private void uusiAinesosa() {
         Dialogs.showMessageDialog("Tämä toiminto ei ole vielä käytössä.");
     }
     
     @FXML
-    private void muokkaaAinesosat() {
-        ModalController.showModal(ReseptivihkoGUIController.class.getResource("ReseptivihkoGUIAinesosaView.fxml"), "Ainesosien muokkaus", null, "");
+    private void paivitaAinesosat() {
+        Dialogs.showMessageDialog("Tämä toiminto ei ole vielä käytössä.");
     }
     
     @FXML
-    private void poistaAinesosarivi() {        
+    private void poistaAinesosa() {
         Dialogs.showMessageDialog("Tämä toiminto ei ole vielä käytössä.");
     }
 
@@ -35,7 +38,7 @@ public class ReseptivihkoGUILisaysController implements ModalControllerInterface
     }
 
     @Override
-    public void setDefault(String oletus) {
+    public void setDefault(String arg0) {
         // TODO Auto-generated method stub
         
     }

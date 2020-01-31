@@ -68,7 +68,6 @@ public class ReseptivihkoGUIController {
     @FXML
     private void uusiResepti() {
         ModalController.showModal(ReseptivihkoGUIController.class.getResource("ReseptivihkoGUILisaysView.fxml"), "Reseptin lisäys", null, "");
-        Dialogs.showMessageDialog("Tämä toiminto ei ole vielä käytössä.");
     }
 
     @FXML
