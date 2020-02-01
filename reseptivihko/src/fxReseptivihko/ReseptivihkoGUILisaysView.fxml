@@ -13,7 +13,7 @@
 
 <HBox prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxReseptivihko.ReseptivihkoGUILisaysController">
    <children>
-      <VBox prefWidth="150.0">
+      <VBox prefWidth="185.0">
          <children>
             <Label layoutX="10.0" layoutY="10.0" text="Määrä">
                <padding>
