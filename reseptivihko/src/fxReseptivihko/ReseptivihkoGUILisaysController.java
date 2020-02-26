@@ -8,18 +8,28 @@ import javafx.fxml.FXML;
 public class ReseptivihkoGUILisaysController implements ModalControllerInterface<String> {
     
     @FXML
-    private void lisaaAinesosarivi() {
+    private void handleLisaaAinesosarivi() {
         Dialogs.showMessageDialog("Tämä toiminto ei ole vielä käytössä.");
     }
     
     @FXML
-    private void muokkaaAinesosat() {
+    private void handleMuokkaaAinesosat() {
         ModalController.showModal(ReseptivihkoGUIController.class.getResource("ReseptivihkoGUIAinesosaView.fxml"), "Ainesosien muokkaus", null, "");
     }
     
     @FXML
-    private void poistaAinesosarivi() {        
+    private void handlePoistaAinesosarivi() {        
         Dialogs.showMessageDialog("Tämä toiminto ei ole vielä käytössä.");
+    }
+    
+    @FXML
+    private void handleTallenna() {
+        Dialogs.showMessageDialog("Tämä toiminto ei ole vielä käytössä.");
+    }
+
+    @FXML
+    private void handleTallenna() {
+        Dialogs.showMessageDialog("Tämä toiminto ei ole vielä käytössä.");        
     }
 
     @Override

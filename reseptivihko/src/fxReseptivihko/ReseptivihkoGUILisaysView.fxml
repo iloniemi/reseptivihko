@@ -30,7 +30,7 @@
             <Label text="Ainesosa" />
             <TextField fx:id="textAinesosa" text="leivin" />
             <ListChooser fx:id="chooserAinesosat" rivit="leivinjauhe" />
-            <Button fx:id="buttonAinesosatMuokkaa" mnemonicParsing="false" onAction="#muokkaaAinesosat" text="Muokkaa ainesosia" />
+            <Button fx:id="buttonAinesosatMuokkaa" mnemonicParsing="false" onAction="#handleMuokkaaAinesosat" text="Muokkaa ainesosia" />
          </children>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" />
@@ -41,12 +41,12 @@
             <Insets bottom="5.0" right="5.0" />
          </padding>
          <children>
-            <Button fx:id="buttonLisaaRivi" mnemonicParsing="false" onAction="#lisaaAinesosarivi" prefWidth="300.0" text="Lisää">
+            <Button fx:id="buttonLisaaRivi" mnemonicParsing="false" onAction="#handleLisaaAinesosarivi" prefWidth="300.0" text="Lisää">
                <VBox.margin>
                   <Insets bottom="5.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="buttonPoistaRivi" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#poistaAinesosarivi" prefWidth="300.0" text="Poista">
+            <Button fx:id="buttonPoistaRivi" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handlePoistaAinesosarivi" prefWidth="300.0" text="Poista">
                <VBox.margin>
                   <Insets bottom="5.0" />
                </VBox.margin>
@@ -86,12 +86,12 @@
                   </VBox>
                   <VBox alignment="TOP_RIGHT">
                      <children>
-                        <Button mnemonicParsing="false" prefWidth="65.0" text="Tallenna">
+                        <Button onAction="#handleTallenna" mnemonicParsing="false" prefWidth="65.0" text="Tallenna">
                            <VBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </VBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" prefWidth="65.0" text="Peruuta">
+                        <Button onAction="#handlePeruuta" mnemonicParsing="false" prefWidth="65.0" text="Peruuta">
                            <padding>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
