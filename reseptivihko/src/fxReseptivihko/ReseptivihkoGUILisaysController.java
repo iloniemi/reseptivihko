@@ -5,6 +5,11 @@ import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import javafx.fxml.FXML;
 
+/**
+ * @author Juho
+ * @version 27 Feb 2020
+ *
+ */
 public class ReseptivihkoGUILisaysController implements ModalControllerInterface<String> {
     
     @FXML
@@ -28,7 +33,7 @@ public class ReseptivihkoGUILisaysController implements ModalControllerInterface
     }
 
     @FXML
-    private void handleTallenna() {
+    private void handlePeruuta() {
         Dialogs.showMessageDialog("Tämä toiminto ei ole vielä käytössä.");        
     }
 

@@ -4,13 +4,12 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.fxml.FXMLLoader;
 
 
 /**
  * @author Juho
- * @version 14 Jan 2020
+ * @version 27 Feb 2020
  *
  */
 public class ReseptivihkoMain extends Application {
