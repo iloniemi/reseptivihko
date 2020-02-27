@@ -109,6 +109,31 @@ public class Resepti {
     }
     
     /**
+     * TESTAAMISTA VARTEN 
+     * Luo tee -reseptin ja antaa sille id:n
+     * @return Tee -resepti omalla id:llä
+     */
+    public static Resepti luoTee() {
+        //TODO: Poista luoTee() -metodi, kun ei enää tarvita!
+        int alaraja = 97; //  'a'
+        int ylaraja = 122; // 'z'
+        int erotus = ylaraja - alaraja + 1;
+        StringBuilder nimi = new StringBuilder();
+        for (int i = 0; i < 5; i++) {
+            int luku = (int) Math.round(erotus * Math.random());
+            luku += alaraja;
+            nimi.append((char) luku);
+        }
+        nimi.append(" -tee");
+        
+        Resepti teeResepti = new Resepti();
+        teeResepti.asetaId();
+        teeResepti.setNimi(nimi.toString());
+        teeResepti.setOhje("Keita vesi.\nUita teepussia vedessa.");
+        return teeResepti;
+    }
+    
+    /**
      * Metodi Resepti -luokan testaamiseen.
      * @param args ei kaytossa
      */
