@@ -27,10 +27,13 @@ public class ReseptiTest {
      */
     @Test
     public void testSetNimi() {
-        Resepti resepti = new Resepti(); resepti.setNimi("Tee");
+        Resepti resepti = new Resepti(); 
+        resepti.setNimi("Tee");
         assertEquals("Nimeä ei asetettu oikein", "Tee", resepti.getNimi());
         resepti.setNimi("Kahvi");
         assertEquals("Nimi ei vaihtunut toisella .setNimi() -kutsulla", "Kahvi", resepti.getNimi());
+        resepti.setNimi(" \n \t");
+        assertEquals("Nimen olisi pitänyt olla \"Nimetön resepti\"", "Nimetön resepti", resepti.getNimi());        
     }
     
     /**
@@ -38,7 +41,8 @@ public class ReseptiTest {
      */
     @Test
     public void testGetNimi() {
-        Resepti resepti = new Resepti(); resepti.setNimi("Tee");
+        Resepti resepti = new Resepti();
+        resepti.setNimi("Tee");
         assertEquals("Nimi on väärin", "Tee", resepti.getNimi());
     }
     
@@ -67,12 +71,12 @@ public class ReseptiTest {
      */
     @Test
     public void testAsetaId() {
-        Resepti resepti1 = new Resepti(); int reseptin1Id = resepti1.asetaId();
+        Resepti resepti1 = new Resepti(); int reseptin1Id = resepti1.setId();
         assertEquals("Asettaminen ei palauttanut id:tä", reseptin1Id, resepti1.getId());
-        resepti1.asetaId();
+        resepti1.setId();
         assertEquals("Toinen asetaId() -kutsu vaihtoi id:tä", reseptin1Id, resepti1.getId());
         Resepti resepti2 = new Resepti();
-        assertEquals("Seuraava asetettu id ei ollut yhtä suurempi kuin edellinen", resepti2.asetaId(), resepti1.getId() + 1);
+        assertEquals("Seuraava asetettu id ei ollut yhtä suurempi kuin edellinen", resepti2.setId(), resepti1.getId() + 1);
     }
 
     /**
@@ -80,13 +84,50 @@ public class ReseptiTest {
      */
     @Test
     public void testParse() {
-        Resepti resepti = new Resepti(); 
-        resepti.parse("3|Tee|Kuumenna vesi kiehuvaksi.§Uita teepussia vedessä.§Nauti.");
+        Resepti resepti = new Resepti();
+        try {Resepti sama = resepti.parse("3|Tee|Kuumenna vesi kiehuvaksi.§Uita teepussia vedessä.§Nauti.");            
+        assertTrue("Ei palauttanut samaa reseptiä", resepti == sama);
+        } catch (VirheellinenSyottotietoException e) { e.getMessage(); };
         assertEquals("Väärä id", 3, resepti.getId());
         assertEquals("Väärä nimi", "Tee", resepti.getNimi());
         assertEquals("Väärä ohje", "Kuumenna vesi kiehuvaksi.\nUita teepussia vedessä.\nNauti.", resepti.getOhje());
-        assertFalse("Vääränlaisessa järjestyksessä oleva syöte toimi", resepti.parse("Tee|3|Kuumenna vesi kiehuvaksi.§Uita teepussia vedessä.§Nauti."));
-        assertFalse("Väärä määrä tietueita syötteessä toimi", resepti.parse("Tee3|Kuumenna vesi kiehuvaksi.§Uita teepussia vedessä.§Nauti."));
+        try { resepti.parse("Tee|3|Kuumenna vesi kiehuvaksi.§Uita teepussia vedessä.§Nauti.");
+        fail("Vääränlaisessa järjestyksessä oleva syöte toimi");
+        } catch (VirheellinenSyottotietoException e) { e.getMessage(); };
+        try {resepti.parse("Tee3|Kuumenna vesi kiehuvaksi.§Uita teepussia vedessä.§Nauti.");
+        fail("Väärä määrä tietueita syötteessä toimi");
+        } catch (VirheellinenSyottotietoException e) { e.getMessage(); };
+    }
+    
+    /**
+     * Testaa Reseptin muuttamista tiedoston riviksi.
+     */
+    @Test
+    public void testTiedostoriviksi() {
+        Resepti resepti = new Resepti(); 
+        try {resepti.parse("3|Tee|Kuumenna vesi kiehuvaksi.§Uita teepussia vedessä.§Nauti.");
+        } catch (VirheellinenSyottotietoException e) { e.getMessage(); };
+        assertEquals("Väärin muotoiltu rivi", "3|Tee|Kuumenna vesi kiehuvaksi.§Uita teepussia vedessä.§Nauti.", resepti.tiedostoriviksi());
+    }
+    
+    /**
+     * Testaa Reseptien vertailua
+     */
+    @Test
+    public void testCompareTo() {
+        Resepti teevee = new Resepti(); 
+        teevee.setNimi("teevee");;
+        Resepti tee = new Resepti(); 
+        tee.setNimi("Tee");;
+        Resepti eetee = new Resepti(); 
+        eetee.setNimi("eTee");;
+        Resepti toinenTee = new Resepti(); 
+        toinenTee.setNimi("tee");
+        assertTrue("eTee pitäisi olla ennen Tee", eetee.compareTo(tee) < 0);
+        assertTrue("Tee pitäisi olla eetee jälkeen", tee.compareTo(eetee) > 0);
+        assertTrue("teevee pitäisi olla Tee jälkeen", teevee.compareTo(eetee) > 0);
+        assertTrue("teevee pitäisi olla eetee jälkeen", teevee.compareTo(tee) > 0);
+        assertEquals("Tee pitäisi olla sama kuin tee", 0, tee.compareTo(toinenTee));
     }
 
  
