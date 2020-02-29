@@ -6,6 +6,13 @@ import java.util.regex.Pattern;
 
 import apufunktioita.Apufunktioita;
 
+/**
+ * Reseptilista, joka ylläpitää listaa Resepteistä ja osaa palauttaa listan Reseptejä, 
+ * jotka vastaavat hakutermejä. Osaa myös palauttaa tietyn id:n omaavan Reseptin.
+ * @author Juho
+ * @version 29 Feb 2020
+ *
+ */
 public class Reseptilista {
     private int lkm = 0;
     private int maxLkm = 50;
