@@ -1,6 +1,10 @@
 package reseptivihko;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import apufunktioita.Apufunktioita;
 
 public class Reseptilista {
     private int lkm = 0;
@@ -8,25 +12,108 @@ public class Reseptilista {
     private Resepti[] reseptit;
 
     
-    public void lisaa(Resepti resepti) {
-        // TODO Auto-generated method stub
-        
+    
+    /**
+     * Konstruktori reseptilistalle.
+     * Alustaa reseptit -taulukon
+     */
+    public Reseptilista() {
+        this.reseptit = new Resepti[this.maxLkm];
     }
     
-    public Resepti haeResepti(int reseptinId) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-    
-    public void poistaResepti(int i) {
-        // TODO Auto-generated method stub
+    /**
+     * Lisää Reseptilistalle uuden Reseptin parsittavasta merkkijonosta.
+     * Merkkijono muodossa "id|nimi|ohje§ohjeenSeuraavaRivi§seuraavaRivi".
+     * @param reseptiTekstina Listalle lisättävä resepti.
+     * @throws VirheellinenSyottotietoException Mikäli merkkijono on muotoiltu väärin.
+     */
+    public void lisaa(String reseptiTekstina) throws VirheellinenSyottotietoException {
+        Resepti resepti = new Resepti();
+        resepti.parse(reseptiTekstina);
         
+        if (this.haeResepti(resepti.getId()) != null) throw new VirheellinenSyottotietoException("Reseptin id on jo käytössä");
+        this.lisaaReseptiTaulukkoon(resepti);
     }
 
+    /**
+     * Lisää Reseptilistalle uuden Reseptin.
+     * Mikäli lisättävä Resepti on jo listalla, toista saman id:n Reseptiä ei lisätä.
+     * @param resepti Listalle lisättävä Resepti.
+     */
+    public void lisaa(Resepti resepti) {
+        if (this.haeReseptinIndeksi(resepti.getId()) != -1) return;
+        this.lisaaReseptiTaulukkoon(resepti);
+    }
+    
+    private void lisaaReseptiTaulukkoon(Resepti resepti) {
+        if (this.lkm == this.maxLkm) {
+            this.maxLkm *= 1.5;
+            Resepti[] uusiTaulukko = new Resepti[this.maxLkm];
+            for (int i = 0; i < this.lkm; i++) uusiTaulukko[i] = this.reseptit[i];
+            this.reseptit = uusiTaulukko;
+        }
+        this.reseptit[lkm] = resepti;
+        this.lkm++;
+    }
+    
+    /**
+     * Hakee id:n perusteella Reseptin, jos se löytyy listalta.
+     * @param reseptinId Haettavan reseptin id.
+     * @return Kyseisen id:n omaava resepti tai null.
+     */
+    public Resepti haeResepti(int reseptinId) {
+        int indeksi = this.haeReseptinIndeksi(reseptinId);
+        if (indeksi < 0) return null;
+        return this.reseptit[indeksi];
+    }
+    
+    /**
+     * Etsii missä indeksissä reseptit -taulukkoa haettavan indeksin omaava Resepti on.
+     * Palauttaa -1, jos reseptiä ei löydy.
+     * @param haettavanId Haettavan reseptin id.
+     * @return reseptit -taulukon indeksi, jossa resepti on
+     */
+    private int haeReseptinIndeksi(int haettavanId) {
+        int indeksi = -1;
+        for (int i = 0; i < this.lkm; i++) {
+            if (this.reseptit[i].getId() == haettavanId) {
+                indeksi = i;
+                break;
+            }
+        }
+        return indeksi;
+    }
+    
+    /**
+     * Poistaa Reseptilistasta Reseptin, jolla on annettu id.
+     * Palauttaa oliko poistettava Resepti Reseptilistassa.
+     * @param poistettavanId Poistettavan reseptin id.
+     * @return Oliko poistettavaa Reseptiä.
+     */
+    public boolean poistaResepti(int poistettavanId) {
+        int indeksi = haeReseptinIndeksi(poistettavanId);
+        if (indeksi == -1) return false;
+        this.lkm--;
+        this.reseptit[indeksi] = this.reseptit[this.lkm]; 
+        return true;
+    }
+
+    /**
+     * Hakee listan Reseptejä, joiden nimi vastaa hakusanoja.
+     * Hakusanoista poistetaan ylimääräiset tyhjät merkit, ja *- merkki
+     * tarkoittaa mitä tahansa merkkiä kuinka monta tahansa kertaa.
+     * @param hakusanat Haussa käytettävät sanat.
+     * @return Lista Reseptejä, joiden nimi vastaa hakua.
+     */
     public ArrayList<Resepti> haeReseptit(String hakusanat) {
-        
-        // TODO Auto-generated method stub
-        return null;
+        ArrayList<Resepti> palautettavat = new ArrayList<>();
+        String regex = Apufunktioita.rajuTrim(hakusanat).replace("*", ".*");
+        Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+        for (int i = 0; i < this.lkm; i++) {
+            Matcher m = pattern.matcher(this.reseptit[i].getNimi());
+            if (m.matches()) palautettavat.add(this.reseptit[i]);
+        }
+        return palautettavat;
     }
 
     /**

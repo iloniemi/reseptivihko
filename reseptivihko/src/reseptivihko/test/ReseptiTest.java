@@ -116,11 +116,11 @@ public class ReseptiTest {
     @Test
     public void testCompareTo() {
         Resepti teevee = new Resepti(); 
-        teevee.setNimi("teevee");;
+        teevee.setNimi("teevee");
         Resepti tee = new Resepti(); 
-        tee.setNimi("Tee");;
+        tee.setNimi("Tee");
         Resepti eetee = new Resepti(); 
-        eetee.setNimi("eTee");;
+        eetee.setNimi("eTee");
         Resepti toinenTee = new Resepti(); 
         toinenTee.setNimi("tee");
         assertTrue("eTee pitäisi olla ennen Tee", eetee.compareTo(tee) < 0);

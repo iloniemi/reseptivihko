@@ -18,14 +18,20 @@ public class ReseptilistaTest {
     @Test
     public void testLisaa() {
         Reseptilista reseptilista = new Reseptilista();
-        for (int i = 1; i <= 51; i++) {
+        Resepti resepti1 = new Resepti();
+        try {resepti1.parse("1|Tee|Kuumenna vesi kiehuvaksi.§Uita teepussia vedessä.§Nauti.");
+        reseptilista.lisaa(resepti1);
+        reseptilista.lisaa(resepti1);
+        assertEquals("Resepti olis pitänyt lisätä vain kerran", 1, reseptilista.haeReseptit("*").size());
+        } catch (VirheellinenSyottotietoException e) { e.getMessage(); };
+        for (int i = 0; i < 51; i++) {
             Resepti resepti = new Resepti();
             resepti.setId();
             resepti.setNimi("Tee" + i); 
             resepti.setOhje("Kuumenna vesi kiehuvaksi.\nUita teepussia vedessä.\nNauti.");
             reseptilista.lisaa(resepti);
         }
-        assertEquals("Lisätty väärä määrä reseptejä", 51, reseptilista.haeReseptit("*").size());
+        assertEquals("Lisätty väärä määrä reseptejä", 52, reseptilista.haeReseptit("*").size());
     }
     
     /**
@@ -78,14 +84,16 @@ public class ReseptilistaTest {
     public void testPoistaResepti() {
         Reseptilista reseptilista = new Reseptilista();
         Resepti resepti1 = new Resepti();
-        try {resepti1.parse("1|Tee1|Kuumenna vesi kiehuvaksi.§Uita teepussia vedessä.§Nauti.");            
+        try {resepti1.parse("1|Tee1|Kuumenna vesi kiehuvaksi.§Uita teepussia vedessä.§Nauti.");
+        reseptilista.lisaa(resepti1);
         } catch (VirheellinenSyottotietoException e) { e.getMessage(); };
         Resepti resepti = new Resepti();
         resepti.setId();
         resepti.setNimi("Tee2"); 
         reseptilista.lisaa(resepti);
         
-        reseptilista.poistaResepti(1);
+        assertTrue("Piti olla Resepti, joka poistaa", reseptilista.poistaResepti(1));
+        assertFalse("Ei pitänyt olla Reseptiä, jonka id on 1", reseptilista.poistaResepti(1));
         List<Resepti> hauntulos = reseptilista.haeReseptit("*");
         assertEquals("Väärä määrä Reseptejä", 1, hauntulos.size());
         assertEquals("Oikea määrä Reseptejä, mutta väärä resepti", resepti, hauntulos.get(0));        
@@ -98,13 +106,16 @@ public class ReseptilistaTest {
     public void testHaeResepti() {
         Reseptilista reseptilista = new Reseptilista();
         Resepti resepti1 = new Resepti();
-        try {resepti1.parse("1|Tee1|Kuumenna vesi kiehuvaksi.§Uita teepussia vedessä.§Nauti.");            
+        try {resepti1.parse("1|Tee1|Kuumenna vesi kiehuvaksi.§Uita teepussia vedessä.§Nauti.");
+        reseptilista.lisaa(resepti1);
         } catch (VirheellinenSyottotietoException e) { e.getMessage(); };
         Resepti resepti2 = new Resepti();
         try {resepti2.parse("2|Tee2|Kuumenna vesi kiehuvaksi.§Uita teepussia vedessä.§Nauti.");            
+        reseptilista.lisaa(resepti2);
         } catch (VirheellinenSyottotietoException e) { e.getMessage(); };
         
-        assertEquals("Väärä määrä Reseptejä", resepti2, reseptilista.haeResepti(2));      
-        assertEquals("Väärä määrä Reseptejä", resepti1, reseptilista.haeResepti(1));      
+        assertEquals("Ei pitäisi olla id 0 Reseptiä", null, reseptilista.haeResepti(0));      
+        assertEquals("Väärä Resepti", resepti2, reseptilista.haeResepti(2));      
+        assertEquals("Väärä Resepti", resepti1, reseptilista.haeResepti(1));      
     }
 }
