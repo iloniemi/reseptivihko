@@ -14,10 +14,6 @@ public class Ainesosarivi {
     private int ainesosaId;
     private double maara;
     private String yksikko;
-    
-    
-
-
 
     /** Konstruktori Aineosariville
      * @param reseptiId Reseptin id
@@ -43,8 +39,8 @@ public class Ainesosarivi {
     
     private void parse(String tiedostorivi) throws VirheellinenSyottotietoException {
         String regexAinesosarivi = "^([0-9]+)\\|([0-9]+)\\|([0-9]+\\.?[0-9]*)\\|(.+)$";
-        //1.reseptiId               |   1  |   |   2  |   |        3       |   | 4|
-        //2.ainesosaId 3.määrä 4.mittayksikkö
+        //              1.reseptiId  |--1.--|   |--2.--|   |-------3.-------|   |4.|
+        //                                    2.ainesosaId       3.määrä         4.mittayksikkö
         Pattern kuvio = Pattern.compile(regexAinesosarivi);
         Matcher matcher =  kuvio.matcher(tiedostorivi);
         
@@ -56,7 +52,6 @@ public class Ainesosarivi {
         this.setYksikko(matcher.group(4));
     }
 
-
     /** Palauttaa sen reseptin id:n, johon rivi kuuluu
      * @return reseptin id
      */
@@ -64,77 +59,52 @@ public class Ainesosarivi {
         return reseptiId;
     }
 
-
-
     /** Asettaa reseptin
-     * @param reseptiId 
+     * @param reseptiId Uusi reseptin id
      */
     public void setReseptiId(int reseptiId) {
         this.reseptiId = reseptiId;
     }
 
-
-
     /** Palauttaa sen aineososan id:n, jota rivi koskee.
-     * @return
+     * @return Ainesosa id
      */
     public int getAinesosaId() {
         return ainesosaId;
     }
 
-
-
-    /**
-     * @param ainesosaId
+    /** Aseta ainesosa id:n
+     * @param ainesosaId Uusi  id
      */
     public void setAinesosaId(int ainesosaId) {
         this.ainesosaId = ainesosaId;
     }
 
-
-
-    /**
-     * @return
+    /** Palauttaa Aineosan määrän
+     * @return Aineosan määrä
      */
     public double getMaara() {
         return maara;
     }
 
-
-
-    /**
-     * @param maara
+    /** Asettaa Aineosan määrän
+     * @param maara Uusi määrä
      */
     public void setMaara(double maara) {
         this.maara = maara;
     }
 
-
-
-    /**
-     * @return
+    /** Palauttaa Ainesosarivin mittayksikön
+     * @return mittayksikkö
      */
     public String getYksikko() {
         return yksikko;
     }
 
-
-
-    /**
-     * @param yksikko
+    /** Asettaa Ainesosarivin mittayksikön
+     * @param yksikko mittayksikkö
      */
     public void setYksikko(String yksikko) {
         this.yksikko = yksikko;
     }
-
-
-
-    /** Metodi Ainesosarivi -luokan testaamiseen
-     * @param args ei käytössä
-     */
-    public static void main(String[] args) {
-        // TODO Auto-generated method stub
-
-    }
-
 }
