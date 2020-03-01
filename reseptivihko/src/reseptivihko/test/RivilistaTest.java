@@ -2,9 +2,13 @@ package reseptivihko.test;
 
 import reseptivihko.*;
 import static org.junit.Assert.*;
-import java.util.List;
 import org.junit.*;
 
+/** Testataan Rivilista -luokan toimintaa.
+ * @author Juho
+ * @version 1 Mar 2020
+ *
+ */
 public  class RivilistaTest {
     private Rivilista rivilista;
 
@@ -35,6 +39,18 @@ public  class RivilistaTest {
         rivilista = null;
     }
     
+    /**
+     * Testaa Reseptin rivien hakemista Reseptin id:n avulla.
+     */
+    @Test
+    public void testHaeReseptinRivit() {
+        assertEquals("Rivejä ei tullut yksi lisää.", 6, rivilista.haeReseptinRivit(1).size());
+        assertEquals("Rivejä ei tullut yksi lisää.", 5, rivilista.haeReseptinRivit(2).size());
+    }
+    
+    /**
+     * Testaa lisaa -metodia
+     */
     @Test
     public void testLisaa() {
         Ainesosarivi rivi = new Ainesosarivi(1, 6, 1, "tl");
@@ -43,18 +59,30 @@ public  class RivilistaTest {
         assertTrue("Lisätty rivi puuttuu.", rivilista.haeReseptinRivit(1).contains(rivi));
     }
     
+    /**
+     * Testaa reseptin rivien poistamista
+     */
     @Test
     public void testPoistaReseptinRivit() {
         rivilista.poistaReseptinRivit(1);
         assertEquals("Rivejä ei poistettu.", 0, rivilista.haeReseptinRivit(1).size());
         assertEquals("Väärän reseptin rivejä poistettiin.", 5, rivilista.haeReseptinRivit(2).size());
+        rivilista.poistaReseptinRivit(2);
+        assertEquals("Rivejä ei poistettu.", 0, rivilista.haeReseptinRivit(2).size());
     }
     
+    /**
+     * Testaa reseptien id:n hakemista ainesosan id:n avulla.
+     */
     @Test
     public void testReseptitAinesosalla() {
         int[] reseptit = rivilista.reseptitAinesosalla(1);
-        assertEquals("Rivejä ei poistettu.", 0, rivilista.haeReseptinRivit(1).size());
-        assertEquals("Väärän reseptin rivejä poistettiin.", 5, rivilista.haeReseptinRivit(2).size());
+        assertEquals("Väärä määrä reseptejä", 2, reseptit.length);
+        rivilista.lisaa(new Ainesosarivi(2, 1, 20, "g"));
+        rivilista.lisaa(new Ainesosarivi(2, 1, 10, "g"));
+        reseptit = rivilista.reseptitAinesosalla(1);
+        int reseptia2 = 0; for (int id: reseptit) if (id == 2) reseptia2++;
+        assertEquals("Reseptin id:n pitäisi esiintyä vain kerran", 1, reseptia2);
     }
 
 }

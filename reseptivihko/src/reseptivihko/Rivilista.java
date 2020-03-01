@@ -1,38 +1,61 @@
 package reseptivihko;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+/** Rivilista -luokka pitää yllä listaa Ainesosariveistä.
+ * @author Juho
+ * @version 1 Mar 2020
+ *
+ */
 public class Rivilista {
     LinkedList<Ainesosarivi> rivit;
     
-    public List<Ainesosarivi> haeReseptinRivit(int i) {
-        // TODO Auto-generated method stub
-        return null;
+    /**
+     * Konstruktori alustaa rivit -listan.
+     */
+    public Rivilista() {
+        this.rivit = new LinkedList<Ainesosarivi>();
+    }
+
+    /** Hakee reseptin id:tä vastaavat rivit.
+     * @param id Reseptin id
+     * @return Listan Ainesosarivejä, joiden reseptin id on 
+     * sama kuin annettu id.
+     */
+    public List<Ainesosarivi> haeReseptinRivit(int id) {
+        return this.rivit.stream()
+                .filter(rivi -> rivi.getReseptiId() == id)
+                .collect(Collectors.toCollection(ArrayList::new));
     }
     
+    /** Lisää Ainesosarivin listalle.
+     * @param ainesosarivi Lisättävä Ainesosarivi
+     */
     public void lisaa(Ainesosarivi ainesosarivi) {
-        // TODO Auto-generated method stub
-        
+        this.rivit.add(ainesosarivi);
     }
     
-    public void poistaReseptinRivit(int i) {
-        // TODO Auto-generated method stub
-        
+    /** Poistaa reseptin id:tä vastaavat Ainesosarivit listalta.
+     * @param id Reseptin id, jonka Ainesosarivit poistetaan
+     */
+    public void poistaReseptinRivit(int id) {
+        this.rivit.removeIf(rivi -> rivi.getReseptiId() == id);
     }
     
-    public int[] reseptitAinesosalla(int i) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-    
-    public static void main(String[] args) {
-        Rivilista rivilista = new Rivilista();
-        rivilista.lisaa(new Ainesosarivi(2, 1, 200, "g"));
-        rivilista.lisaa(new Ainesosarivi(2, 1, 200, "g"));
-        rivilista.haeReseptinRivit(2);
-        rivilista.poistaReseptinRivit(2);
-        int[] reseptiId = rivilista.reseptitAinesosalla(1);
+    /** Hakee reseptien id:t, joilla on Ainesosarivi, jossa on annettu
+     * Ainesosan id.
+     * @param id Ainesosa id
+     * @return Taulukko Reseptien id:itä
+     */
+    public int[] reseptitAinesosalla(int id) {
+        return this.rivit.stream()
+                .filter(rivi -> rivi.getAinesosaId() == id)
+                .mapToInt(rivi -> rivi.getReseptiId())
+                .distinct()
+                .toArray();
     }
 
 }
