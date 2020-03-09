@@ -1,7 +1,10 @@
-package reseptivihko;
+package reseptivihko.test;
 
 import static org.junit.Assert.*;
 import org.junit.*;
+
+import reseptivihko.Ainesosa;
+import reseptivihko.VirheellinenSyottotietoException;
 
 /** Testataan Ainesosa -luokan toimintaa.
  * @author Juho
