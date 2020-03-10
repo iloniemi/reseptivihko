@@ -35,11 +35,14 @@ public class Ainesosalista {
     }
     
     /** Palauttaa listan Ainesosia, joiden nimessä esiintyy hakuteksti.
+     * Tyhjä merkkijono palauttaa kaikki Ainesosat.
      * 
      * @param hakuteksti teksti, jolla haetaan
      * @return ArrayList hakua vastaavia Ainesosia
      */
-    public List<Ainesosa> haeAinesosat(String hakuteksti) {
+    public ArrayList<Ainesosa> haeAinesosat(String hakuteksti) {
+        if ("".equals(hakuteksti)) return this.ainesosat;
+        
         String regex = ".*" + hakuteksti.replace("*", ".*") + ".*";
         Pattern kuvio = Pattern.compile(regex);
         ArrayList<Ainesosa> palautettavat = new ArrayList<Ainesosa>();

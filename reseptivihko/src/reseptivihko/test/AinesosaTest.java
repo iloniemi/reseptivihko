@@ -48,7 +48,7 @@ public class AinesosaTest {
      * Testaa nimen palauttamista
      */
     @Test
-    public void getNimi() {
+    public void testGetNimi() {
         Ainesosa ainesosa3;
         try { ainesosa3 = new Ainesosa().parse("5|vehnäjauhoja");
         assertEquals("Nimen kuuluisi olla \"vehnäjauhoja\".", "vehnäjauhoja", ainesosa3.getNimi());
@@ -61,10 +61,10 @@ public class AinesosaTest {
      * Testaa id:n palauttamista
      */
     @Test
-    public void getId() {
-        Ainesosa ainesosa3;
-        try { ainesosa3 = new Ainesosa().parse("5|vehnäjauhoja");
-        assertEquals("Id:n kuuluisi olla 5.", 5, ainesosa3.getId());
+    public void testGetId() {
+        Ainesosa ainesosa;
+        try { ainesosa = new Ainesosa().parse("5|vehnäjauhoja");
+        assertEquals("Id:n kuuluisi olla 5.", 5, ainesosa.getId());
         } catch (VirheellinenSyottotietoException e) {
             fail("Virhe: " + e.getMessage());
         }

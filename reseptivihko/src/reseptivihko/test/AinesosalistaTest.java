@@ -40,6 +40,7 @@ public class AinesosalistaTest {
     @Test
     public void testHaeAinesosat() {
         assertEquals("Haun olisi pitänyt palauttaa kaikki 5 ", 5, this.lista.getAinesosat().size());
+        assertEquals("Haun olisi pitänyt palauttaa kaikki 5 ", 5, this.lista.haeAinesosat("").size());
         assertEquals("Haun olis pitänyt löytää vain tummaa suklaata", "tummaa suklaaata", this.lista.haeAinesosat("suklaat").get(0).getNimi());
         assertEquals("Haun olisi pitänyt palauttaa kaksi Ainesosaa, voita ja tummaa suklaata", 2, this.lista.haeAinesosat("ta").size());
     }

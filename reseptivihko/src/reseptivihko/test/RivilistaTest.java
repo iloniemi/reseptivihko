@@ -44,8 +44,8 @@ public  class RivilistaTest {
      */
     @Test
     public void testHaeReseptinRivit() {
-        assertEquals("Rivejä ei tullut yksi lisää.", 6, rivilista.haeReseptinRivit(1).size());
-        assertEquals("Rivejä ei tullut yksi lisää.", 5, rivilista.haeReseptinRivit(2).size());
+        assertEquals("Väärä määrä rivejä.", 6, rivilista.haeReseptinRivit(1).size());
+        assertEquals("Väärä määrä rivejä.", 5, rivilista.haeReseptinRivit(2).size());
     }
     
     /**

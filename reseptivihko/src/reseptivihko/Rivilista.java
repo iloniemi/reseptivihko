@@ -2,7 +2,6 @@ package reseptivihko;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 /** Rivilista -luokka pitää yllä listaa Ainesosariveistä.
@@ -25,7 +24,7 @@ public class Rivilista {
      * @return Listan Ainesosarivejä, joiden reseptin id on 
      * sama kuin annettu id.
      */
-    public List<Ainesosarivi> haeReseptinRivit(int id) {
+    public ArrayList<Ainesosarivi> haeReseptinRivit(int id) {
         return this.rivit.stream()
                 .filter(rivi -> rivi.getReseptiId() == id)
                 .collect(Collectors.toCollection(ArrayList::new));
