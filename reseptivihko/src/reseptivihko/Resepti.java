@@ -187,9 +187,5 @@ public class Resepti implements Comparable<Resepti> {
         System.out.println(resepti2.toString());
         System.out.println(resepti2.tiedostoriviksi());
     }
-
-
-
-
         
 }

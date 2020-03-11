@@ -20,16 +20,16 @@
                   <Insets top="5.0" />
                </padding>
             </Label>
-            <TextField layoutX="10.0" layoutY="27.0" text="1" />
+            <TextField fx:id="textMaara" layoutX="10.0" layoutY="27.0" text="1" />
             <Label layoutX="10.0" layoutY="368.0" text="Mittayksikkö">
                <padding>
                   <Insets top="5.0" />
                </padding>
             </Label>
-            <TextField layoutX="10.0" layoutY="368.0" text="l" />
+            <TextField fx:id="textYksikko" layoutX="10.0" layoutY="368.0" text="l" />
             <Label text="Ainesosa" />
-            <TextField fx:id="textAinesosa" text="leivin" />
-            <ListChooser fx:id="chooserAinesosat" rivit="leivinjauhe" />
+            <TextField fx:id="textAinesosa" onKeyReleased="#handlePaivitaAinesosat" text="" />
+            <ListChooser fx:id="chooserAinesosat" onMouseReleased="#handleAinesosaValittu" rivit="leivinjauhe" />
             <Button fx:id="buttonAinesosatMuokkaa" mnemonicParsing="false" onAction="#handleMuokkaaAinesosat" text="Muokkaa ainesosia" />
          </children>
          <padding>
@@ -51,7 +51,7 @@
                   <Insets bottom="5.0" />
                </VBox.margin>
             </Button>
-            <StringGrid rivit="määrä|yksikkö|ainesosa&#10;200|g|tumma suklaa&#10;200|g|voi&#10;4|kpl|kananmuna&#10;2|dl|sokeri&#10;2.5|dl|vehnäjauhot" VBox.vgrow="ALWAYS">
+            <StringGrid fx:id="stringGridRivit" rivit="määrä|yksikkö|ainesosa&#10;200|g|tumma suklaa&#10;200|g|voi&#10;4|kpl|kananmuna&#10;2|dl|sokeri&#10;2.5|dl|vehnäjauhot" VBox.vgrow="ALWAYS">
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
@@ -72,7 +72,7 @@
                               <Insets top="5.0" />
                            </padding>
                         </Label>
-                        <TextField text="Mutakakku">
+                        <TextField fx:id="textReseptinNimi" text="Mutakakku">
                            <VBox.margin>
                               <Insets right="20.0" />
                            </VBox.margin>
@@ -106,7 +106,7 @@
                   </VBox>
                </children>
             </HBox>
-            <TextArea text="Kuumenna uuni 200 asteeseen.&#10;Vatkaa munat ja sokeri vaaleaksi vaahdoksi.&#10;Sulata suklaa ja voi ja kaada munasokeriseokseen.&#10;Lisää vehnäjauhot ja leivinjauhe.&#10;Sekoita varovasti.&#10;Kaada seos voideltuun, jauhoitettuun pyöreään vuokaan (n. 24-26cm).&#10;&#10;Paista uunin alatasolla n. 15-20 min.&#10;Mud Cake jää sisältä löysähköksi ja jähmettyy hieman jäähtyessään.&#10;Jäähdytä kakku hyvin ennen tarjoilua, ensin huoneen lämmössä, sitten jääkaapissa." wrapText="true" VBox.vgrow="ALWAYS" />
+            <TextArea fx:id="textAreaTyoOhje" text="Kuumenna uuni 200 asteeseen.&#10;Vatkaa munat ja sokeri vaaleaksi vaahdoksi.&#10;Sulata suklaa ja voi ja kaada munasokeriseokseen.&#10;Lisää vehnäjauhot ja leivinjauhe.&#10;Sekoita varovasti.&#10;Kaada seos voideltuun, jauhoitettuun pyöreään vuokaan (n. 24-26cm).&#10;&#10;Paista uunin alatasolla n. 15-20 min.&#10;Mud Cake jää sisältä löysähköksi ja jähmettyy hieman jäähtyessään.&#10;Jäähdytä kakku hyvin ennen tarjoilua, ensin huoneen lämmössä, sitten jääkaapissa." wrapText="true" VBox.vgrow="ALWAYS" />
          </children>
       </VBox>
    </children>

@@ -1,5 +1,6 @@
 package reseptivihko;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -106,5 +107,20 @@ public class Ainesosarivi {
      */
     public void setYksikko(String yksikko) {
         this.yksikko = yksikko;
+    }
+    
+    
+    
+    
+//TODO:poista kun ei tarvita.
+    /** Luo Aineososarivejä annetulle reseptin id:lle.
+     * @param reseptinId Käytettävä Reseptin id.
+     * @return Luodit Ainesosarivit.
+     */
+    public static ArrayList<Ainesosarivi> luoMallirivit(int reseptinId) {
+        ArrayList<Ainesosarivi> mallirivit = new ArrayList<Ainesosarivi>();
+        mallirivit.add(new Ainesosarivi(reseptinId, 9, 2, "dl"));
+        mallirivit.add(new Ainesosarivi(reseptinId, 10, 1, "kpl"));
+        return mallirivit;
     }
 }

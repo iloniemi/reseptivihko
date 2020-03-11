@@ -15,6 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.util.Pair;
 import reseptivihko.Ainesosa;
 import reseptivihko.Ainesosarivi;
 import reseptivihko.Resepti;
@@ -77,7 +78,7 @@ public class ReseptivihkoGUIController implements Initializable {
     }
 
     @FXML
-    private void paivitaAinesosat() {
+    private void handlePaivitaAinesosat() {
         Dialogs.showMessageDialog("Tämä toiminto ei ole vielä käytössä.");
     }
 
@@ -93,22 +94,17 @@ public class ReseptivihkoGUIController implements Initializable {
 
     @FXML
     private void uusiResepti() {
-        ModalController.showModal(ReseptivihkoGUIController.class.getResource("ReseptivihkoGUILisaysView.fxml"), "Reseptin lisäys", null, "");
+        reseptinKasittely(new Resepti());
     }
 
     @FXML
     private void muokkaaReseptia() {
-        Dialogs.showMessageDialog("Tämä toiminto ei ole vielä käytössä.");
+        if (this.valittuResepti != null) reseptinKasittely(this.valittuResepti);
     }
     
     @FXML
     private void handleNaytaResepti() {
         naytaResepti();
-    }
-
-    @FXML
-    private void  muokkkaaReseptia() {
-        Dialogs.showMessageDialog("Tämä toiminto ei ole vielä käytössä.");
     }
 
     @FXML
@@ -120,6 +116,7 @@ public class ReseptivihkoGUIController implements Initializable {
  // Tästä eteenpäin ei käyttöliittymään suoraan liittyvää koodia
     
     private Reseptivihko vihko;
+    private Resepti valittuResepti = null;
     
     private void alusta() {
         // TODO Auto-generated method stub
@@ -153,19 +150,34 @@ public class ReseptivihkoGUIController implements Initializable {
      * Näyttää valitun reseptin
      */
     private void naytaResepti() {
-        Resepti resepti = chooserReseptit.getSelectedObject();
-        labelReseptinNimi.setText(resepti.getNimi());
+        this.valittuResepti = chooserReseptit.getSelectedObject();
+        paivitaNimi();
         paivitaRivit();
-        textAreaTyoOhje.setText(resepti.getOhje());
+        paivitaOhje();
+    }
+    
+    /**
+     * Päivittää näytetävän Reseptin nimen.
+     */
+    private void paivitaNimi() {
+        labelReseptinNimi.setText(valittuResepti.getNimi());
+    }
+    
+    /**
+     * Päivittää työohjeen.
+     */
+    private void paivitaOhje() {
+        textAreaTyoOhje.setText(valittuResepti.getOhje());
     }
     
     /**
      * Päivittää näytettävät Ainesosarivit
      */
     private void paivitaRivit() {
-        Resepti resepti = chooserReseptit.getSelectedObject();
+        if (this.valittuResepti == null) return;
+        
         stringGridRivit.clear();
-        Collection<Ainesosarivi> reseptinRivit = this.vihko.haeRivit(resepti);
+        Collection<Ainesosarivi> reseptinRivit = this.vihko.haeRivit(this.valittuResepti);
         if (reseptinRivit == null) return;
         for (Ainesosarivi ainesosarivi: reseptinRivit) {
             // Määrä tekstiksi
@@ -190,5 +202,28 @@ public class ReseptivihkoGUIController implements Initializable {
         try { kerroin = Double.parseDouble(textKerroin.getText());
         } catch (NumberFormatException e) {e.getMessage();}
         return kerroin;
+    }
+    
+    /** Avaa ikkunan Reseptin käsittelyä varten.
+     * @param vihkoJaResepti Pari, jossa on Reseptivihko ja Resepti
+     */
+    private void reseptinKasittely(Resepti resepti) {
+        //this.vihko.lisaaMalliresepti();
+        //TODO: vaihda kun on aika ottaa muokkausikkuna käyttöön.
+        ModalController.showModal(ReseptivihkoGUIController.class
+                .getResource("ReseptivihkoGUILisaysView.fxml"), "Reseptin lisäys", 
+                null, new Pair<Reseptivihko, Resepti>(this.vihko, resepti));
+        paivitaKaikki();
+    }
+    
+    /**
+     * Päivittää päänäkymän.
+     */
+    private void paivitaKaikki() {
+        paivitaReseptit();
+        paivitaNimi();
+        paivitaOhje();
+        paivitaRivit();
+        //TODO: lisää päivitä ainesosat
     }
 }

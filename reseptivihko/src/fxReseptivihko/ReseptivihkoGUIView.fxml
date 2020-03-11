@@ -54,7 +54,7 @@
                      <padding>
                         <Insets top="5.0" />
                      </padding></Label>
-                  <TextField fx:id="textAinesosa" onKeyReleased="#paivitaAinesosat" text="sukl" />
+                  <TextField fx:id="textAinesosa" onKeyReleased="#handlePaivitaAinesosat" text="sukl" />
                   <ListChooser fx:id="chooserAinesosat" rivit="tumma suklaa&#10;maitosuklaa" VBox.vgrow="ALWAYS" />
                   <Button fx:id="buttonAinesosatLisaa" onAction="#lisaaAinesosa" mnemonicParsing="false" text="Lisää" />
                   <Label text="Valitut ainesosat">

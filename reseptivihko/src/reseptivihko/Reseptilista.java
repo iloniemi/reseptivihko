@@ -48,10 +48,21 @@ public class Reseptilista {
      * @param resepti Listalle lisättävä Resepti.
      */
     public void lisaa(Resepti resepti) {
+        if (reseptiOnJo(resepti)) return; //TODO: testi tälle ominasuudelle
         if (this.haeReseptinIndeksi(resepti.getId()) != -1) return;
         this.lisaaReseptiTaulukkoon(resepti);
     }
     
+    /** Tutkii onko Resepti jo listalla.
+     * @param tutkittava etsittava Resepti
+     * @return Onko resepti jo listalla
+     */
+    private boolean reseptiOnJo(Resepti tutkittava) {
+        if (this.reseptit.length == 0) return false;
+        for (Resepti resepti: this.reseptit) if (resepti == tutkittava) return true;
+        return false;
+    }
+
     private void lisaaReseptiTaulukkoon(Resepti resepti) {
         if (this.lkm == this.maxLkm) {
             this.maxLkm *= 1.5;

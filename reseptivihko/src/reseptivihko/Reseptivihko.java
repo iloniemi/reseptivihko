@@ -104,6 +104,22 @@ public class Reseptivihko {
     public ArrayList<Ainesosarivi> haeRivit(Resepti resepti) {
         return this.rivilista.haeReseptinRivit(resepti.getId());
     }
+    
+    /** Hakee Ainesosan sen id:n perusteella.
+     * @param id Haettavan Ainesosan id.
+     * @return Haettu ainesosa tai null.
+     */
+    public Ainesosa haeAinesosa(int id) {
+        return this.ainesosalista.haeAinesosa(id);
+    }
+    
+    /** Poistaa annetun Reseptin ainesosarivit vihosta.
+     * @param resepti Resepti, jonka Ainesosarivit poistetaan
+     */
+    public void poistaReseptinRivit(Resepti resepti) {
+        // TODO Testit TÄLLE
+        this.rivilista.poistaReseptinRivit(resepti.getId());
+    }
 
     
     
@@ -117,7 +133,8 @@ public class Reseptivihko {
         
         String[] parsittavatAinesosat = {"1|tumma suklaata", "2|voita", 
                 "3|kananmunia", "4|sokeria", "5|vehnäjauhoja", 
-                "6|leivinjauhetta", "7|kermaa", "8|kaakaojauhetta"};
+                "6|leivinjauhetta", "7|kermaa", "8|kaakaojauhetta",
+                "9|vettä", "10|teepussi"};
         ArrayList<Ainesosa> ainesosat = new  ArrayList<Ainesosa>();
         try {
             for (String rivi: parsittavatAinesosat) ainesosat.add(new Ainesosa().parse(rivi));
@@ -152,13 +169,17 @@ public class Reseptivihko {
 
         return mallivihko;
     }
-
-    /** Hakee Ainesosan sen id:n perusteella.
-     * @param id Haettavan Ainesosan id.
-     * @return Haettu ainesosa tai null.
+    
+    // TODO:poista kun ei tarvita enää.
+    /**
+     * Lisää vihkoon mallireseptin ja siihen liittyvät rivit.
      */
-    public Ainesosa haeAinesosa(int id) {
-        return this.ainesosalista.haeAinesosa(id);
+    public void lisaaMalliresepti() {
+        Resepti tee = Resepti.luoTee();
+        ArrayList<Ainesosarivi> rivit = Ainesosarivi.luoMallirivit(tee.getId());
+        this.lisaa(tee);
+        this.lisaa(rivit.get(0));
+        this.lisaa(rivit.get(1));
     }
     
     
