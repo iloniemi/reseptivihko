@@ -48,8 +48,8 @@
                </padding>
                <children>
                   <Label text="Nimellä haku" />
-                  <TextField text="t" />
-                  <Button fx:id="buttonHaku" onAction="#haeReseptit" mnemonicParsing="false" text="Hae" />
+                  <TextField fx:id="textReseptiHaku" text="*" />
+                  <Button fx:id="buttonHaku" onAction="#handleHaeReseptit" mnemonicParsing="false" text="Hae" />
                   <Label text="Ainesosahaku">
                      <padding>
                         <Insets top="5.0" />
@@ -61,7 +61,7 @@
                      <padding>
                         <Insets top="5.0" />
                      </padding></Label>
-                  <ListChooser layoutX="15.0" layoutY="94.0" rivit="voi" />
+                  <ListChooser fx:id="chooserValitutAinesosat" layoutX="15.0" layoutY="94.0" rivit="voi" />
                   <Button fx:id="buttonAinesosatPoista" onAction="#poistaAinesosa" layoutX="15.0" layoutY="52.0" mnemonicParsing="false" text="Poista" />
                </children>
             </VBox>
@@ -77,7 +77,7 @@
                      </children>
                   </HBox>
                   <Label text="Reseptit" />
-                  <ListChooser fx:id="listReseptit" onMouseReleased="#naytaResepti" rivit="Mutakakku&#10;Suklaatryffelit" VBox.vgrow="ALWAYS" />
+                  <ListChooser fx:id="chooserReseptit" onMouseReleased="#handleNaytaResepti" rivit="Mutakakku&#10;Suklaatryffelit" VBox.vgrow="ALWAYS" />
                </children>
             </VBox>
             <VBox layoutX="10.0" layoutY="10.0">
@@ -89,7 +89,7 @@
                      <children>
                         <HBox HBox.hgrow="ALWAYS">
                            <children>
-                              <Label text="Mutakakku">
+                              <Label fx:id="labelReseptinNimi" text="Mutakakku">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
@@ -100,15 +100,15 @@
                                        <HBox.margin>
                                           <Insets right="5.0" />
                                        </HBox.margin></Label>
-                                    <TextField fx:id="textKerroin" onKeyReleased="#paivitaMaarat" prefWidth="50.0" text="1.0" />
+                                    <TextField fx:id="textKerroin" onKeyReleased="#handlePaivitaRivit" prefWidth="50.0" text="1.0" />
                                  </children>
                               </HBox>
                            </children>
                         </HBox>
                      </children>
                   </HBox>
-                  <StringGrid rivit="määrä|yksikkö|ainesosa&#10;200|g|tumma suklaa&#10;200|g|voi&#10;4|kpl|kananmuna&#10;2|dl|sokeri&#10;2.5|dl|vehnäjauhot&#10;1|tl|leivinjauhe" VBox.vgrow="ALWAYS" />
-                  <TextArea prefHeight="505.0" prefWidth="417.0" text="Kuumenna uuni 200 asteeseen.&#10;Vatkaa munat ja sokeri vaaleaksi vaahdoksi.&#10;Sulata suklaa ja voi ja kaada munasokeriseokseen.&#10;Lisää vehnäjauhot ja leivinjauhe.&#10;Sekoita varovasti.&#10;Kaada seos voideltuun, jauhoitettuun pyöreään vuokaan (n. 24-26cm).&#10;&#10;Paista uunin alatasolla n. 15-20 min.&#10;Mud Cake jää sisältä löysähköksi ja jähmettyy hieman jäähtyessään.&#10;Jäähdytä kakku hyvin ennen tarjoilua, ensin huoneen lämmössä, sitten jääkaapissa." wrapText="true" VBox.vgrow="ALWAYS">
+                  <StringGrid fx:id="stringGridRivit" rivit="määrä|yksikkö|ainesosa&#10;200|g|tumma suklaa&#10;200|g|voi&#10;4|kpl|kananmuna&#10;2|dl|sokeri&#10;2.5|dl|vehnäjauhot&#10;1|tl|leivinjauhe" VBox.vgrow="ALWAYS" />
+                  <TextArea fx:id="textAreaTyoOhje" prefHeight="505.0" prefWidth="417.0" text="Kuumenna uuni 200 asteeseen.&#10;Vatkaa munat ja sokeri vaaleaksi vaahdoksi.&#10;Sulata suklaa ja voi ja kaada munasokeriseokseen.&#10;Lisää vehnäjauhot ja leivinjauhe.&#10;Sekoita varovasti.&#10;Kaada seos voideltuun, jauhoitettuun pyöreään vuokaan (n. 24-26cm).&#10;&#10;Paista uunin alatasolla n. 15-20 min.&#10;Mud Cake jää sisältä löysähköksi ja jähmettyy hieman jäähtyessään.&#10;Jäähdytä kakku hyvin ennen tarjoilua, ensin huoneen lämmössä, sitten jääkaapissa." wrapText="true" VBox.vgrow="ALWAYS">
                      <padding>
                         <Insets top="5.0" />
                      </padding></TextArea>

@@ -67,4 +67,16 @@ public class Ainesosalista {
         return this.ainesosat;
     }
 
+    /** Palauttaa haetun id:n omaavan Ainesosan.
+     * @param id Haettavan ainesosa id
+     * @return Haettu Ainesosa tai null.
+     */
+    public Ainesosa haeAinesosa(int id) {
+        Ainesosa palautettava = null;
+        for (Ainesosa ainesosa: this.ainesosat) {
+            if (ainesosa.getId() == id) palautettava = ainesosa;
+        }
+        return palautettava;
+    }
+
 }                                                             

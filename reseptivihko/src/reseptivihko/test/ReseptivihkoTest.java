@@ -141,4 +141,14 @@ public class ReseptivihkoTest {
         haetutAinesosat = this.vihko.haeAinesosat("munia");
         assertTrue("\"munia\" haku ei palauttanut kananmunia.", haetutAinesosat.contains(this.ainesosat.get(2)));
     }
+    
+    /**
+     * Testaa Ainesosan hakemista Reseptivihosta
+     */
+    @Test
+    public void testHaeAinesosa() {
+        assertEquals("Ainesosan id ei täsmännyt haun kanssa", 1, this.vihko.haeAinesosa(1).getId());
+        assertEquals("Ainesosan id ei täsmännyt haun kanssa", 4, this.vihko.haeAinesosa(4).getId());
+    }
+    
 }

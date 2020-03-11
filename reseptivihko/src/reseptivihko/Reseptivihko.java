@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+import org.junit.Before;
+
 /** Reseptivihko -luokka, joka ylläpitää listoja Resepteistä, Ainesosista ja Ainesosariveistä.
  * Käyttöliittymät ovat yhteydessä tämän luokan olioihin.
  * @author Juho
@@ -83,7 +85,9 @@ public class Reseptivihko {
         
         ArrayList<Resepti> palautettavat = this.reseptilista.haeReseptit(teksti);
         for (Ainesosa ainesosa: ainesosat) {
+            if (ainesosa == null) continue;
             int[] ainesosaaSisaltavatReseptit = this.rivilista.reseptitAinesosalla(ainesosa.getId());
+            
             palautettavat.removeIf(resepti -> {
                 for (int id: ainesosaaSisaltavatReseptit) if (id == resepti.getId()) return false;
                 return true;
@@ -100,5 +104,66 @@ public class Reseptivihko {
     public ArrayList<Ainesosarivi> haeRivit(Resepti resepti) {
         return this.rivilista.haeReseptinRivit(resepti.getId());
     }
+
+    
+    
+    
+    
+    /** Luo mallivihon
+     * @return Luotu mallivihko
+     */
+    public static Reseptivihko mallivihko() {
+        //TODO: Poista kun ei ole tarvetta
+        
+        String[] parsittavatAinesosat = {"1|tumma suklaata", "2|voita", 
+                "3|kananmunia", "4|sokeria", "5|vehnäjauhoja", 
+                "6|leivinjauhetta", "7|kermaa", "8|kaakaojauhetta"};
+        ArrayList<Ainesosa> ainesosat = new  ArrayList<Ainesosa>();
+        try {
+            for (String rivi: parsittavatAinesosat) ainesosat.add(new Ainesosa().parse(rivi));
+        } catch (VirheellinenSyottotietoException e) {
+            System.err.println("Virhe luotaessa testejä varten ainesosia: " + e.getMessage());
+        }
+        
+        String[] parsittavatReseptit = {"1|Mud cake|Kuumenna uuni 200 asteeseen.§Vatkaa munat ja sokeri vaaleaksi vaahdoksi.§Sulata suklaa ja voi ja kaada munasokeriseokseen.§Lisää vehnäjauhot ja leivinjauhe.§Sekoita varovasti.§Kaada seos voideltuun, jauhoitettuun pyöreään vuokaan (n. 24-26cm).§Paista uunin alatasolla n. 15-20 min."
+                ,"2|Suklaatryffelit|Kuumenna kerma kiehuvaksi.§Kaada kerma suklaan ja voin päälle.§Sekoita varovasti.§Mausta.§Muotoile käsissä.§Päällystä kaakaojauheella."
+        };
+        ArrayList<Resepti> reseptit = new ArrayList<Resepti>();
+        try {
+            for (String rivi: parsittavatReseptit) reseptit.add(new Resepti().parse(rivi));
+        } catch (VirheellinenSyottotietoException e) {
+            System.err.println("Virhe luotaessa testejä varten reseptejä: " + e.getMessage());
+        }
+        
+        String[] parsittavatRivit = {"1|1|200|g", "1|2|200|g", "1|3|4|kpl",
+                "1|4|2|dl", "1|5|2.5|dl", "1|6|1|tl", "2|1|200|g",
+                "2|7|100|g", "2|2|10|g", "2|8|10|g"};
+        ArrayList<Ainesosarivi> rivit = new  ArrayList<Ainesosarivi>();
+        try {
+            for (String rivi: parsittavatRivit) rivit.add(new Ainesosarivi(rivi));
+        } catch (VirheellinenSyottotietoException e) {
+            System.err.println("Virhe luotaessa testejä varten Ainesosarivejä: " + e.getMessage());
+        }
+        
+        Reseptivihko mallivihko = new Reseptivihko();
+        for (Ainesosa ainesosa: ainesosat) mallivihko.lisaa(ainesosa);
+        for (Resepti resepti: reseptit) mallivihko.lisaa(resepti);
+        for (Ainesosarivi rivi: rivit) mallivihko.lisaa(rivi);        
+
+        return mallivihko;
+    }
+
+    /** Hakee Ainesosan sen id:n perusteella.
+     * @param id Haettavan Ainesosan id.
+     * @return Haettu ainesosa tai null.
+     */
+    public Ainesosa haeAinesosa(int id) {
+        return this.ainesosalista.haeAinesosa(id);
+    }
+    
+    
+    
+    
+    
 
 }
