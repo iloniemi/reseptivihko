@@ -160,14 +160,16 @@ public class ReseptivihkoGUIController implements Initializable {
      * Päivittää näytetävän Reseptin nimen.
      */
     private void paivitaNimi() {
-        labelReseptinNimi.setText(valittuResepti.getNimi());
+        if (this.valittuResepti == null) return;
+        labelReseptinNimi.setText(this.valittuResepti.getNimi());
     }
     
     /**
      * Päivittää työohjeen.
      */
     private void paivitaOhje() {
-        textAreaTyoOhje.setText(valittuResepti.getOhje());
+        if (this.valittuResepti == null) return;
+        textAreaTyoOhje.setText(this.valittuResepti.getOhje());
     }
     
     /**
@@ -208,8 +210,6 @@ public class ReseptivihkoGUIController implements Initializable {
      * @param vihkoJaResepti Pari, jossa on Reseptivihko ja Resepti
      */
     private void reseptinKasittely(Resepti resepti) {
-        //this.vihko.lisaaMalliresepti();
-        //TODO: vaihda kun on aika ottaa muokkausikkuna käyttöön.
         ModalController.showModal(ReseptivihkoGUIController.class
                 .getResource("ReseptivihkoGUILisaysView.fxml"), "Reseptin lisäys", 
                 null, new Pair<Reseptivihko, Resepti>(this.vihko, resepti));
