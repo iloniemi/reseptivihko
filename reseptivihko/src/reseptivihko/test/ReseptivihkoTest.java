@@ -2,7 +2,12 @@ package reseptivihko.test;
 
 import static org.junit.Assert.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
+
 import org.junit.*;
+
+import fi.jyu.mit.ohj2.Tiedosto;
+import fi.jyu.mit.ohj2.VertaaTiedosto;
 import reseptivihko.*;
 
 /**
@@ -151,4 +156,23 @@ public class ReseptivihkoTest {
         assertEquals("Ainesosan id ei täsmännyt haun kanssa", 4, this.vihko.haeAinesosa(4).getId());
     }
     
+    /**
+     * Testaa tiedostojen tallentamista ja lukemista sekä tallennuskansion asettamista.
+     */
+    public void testTiedostot() {
+        VertaaTiedosto.tuhoaTiedosto("testi");
+        this.vihko.asetaKansio("testi");
+        this.vihko.tallenna();
+        Reseptivihko uusiVihko = new Reseptivihko();
+        uusiVihko.asetaKansio("testi");
+        uusiVihko.lue();
+        for (int i = 1; i <= 8; i++) {
+            assertEquals(String.format("Ainesosa %d ei ollut sama.", i), 
+                    this.vihko.haeAinesosa(i).getNimi(), uusiVihko.haeAinesosa(i).getNimi());            
+        }
+        Resepti uudenVihkonKakku = uusiVihko.haeReseptit("Mud cake", new LinkedList<Ainesosa>()).get(0);
+        Resepti tamanVihkonKakku = this.vihko.haeReseptit("Mud cake", new LinkedList<Ainesosa>()).get(0);
+        assertEquals("Luetun reseptin ID ei vastannut tallennettua", tamanVihkonKakku.getId(), uudenVihkonKakku.getId());
+        assertEquals("Luetun reseptin ohje ei vastannut tallennettua", tamanVihkonKakku.getOhje(), uudenVihkonKakku.getOhje());
+    }
 }

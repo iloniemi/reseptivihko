@@ -1,10 +1,8 @@
 package reseptivihko;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.stream.Collectors;
-
-import org.junit.Before;
 
 /** Reseptivihko -luokka, joka ylläpitää listoja Resepteistä, Ainesosista ja Ainesosariveistä.
  * Käyttöliittymät ovat yhteydessä tämän luokan olioihin.
@@ -16,6 +14,7 @@ public class Reseptivihko {
     private Reseptilista reseptilista = null;
     private Rivilista rivilista = null;
     private Ainesosalista ainesosalista = null;
+    private File tallennuskansio = new File("oma");
     
     /**
      * Alustaa Reseptivihon.
@@ -170,6 +169,34 @@ public class Reseptivihko {
         return mallivihko;
     }
     
+    //TODO: testit naille
+    /**
+     * Tallentaan listojen tiedot tiedostoihinsa.
+     */
+    public void tallenna() {
+        this.reseptilista.tallenna(this.tallennuskansio);
+        this.rivilista.tallenna(this.tallennuskansio);
+        this.ainesosalista.tallenna(this.tallennuskansio);
+    }
+    
+    /** Asettaa tallennukseen käytettävän kansion.
+     * Oletuksena "oma" -niminen kansio.
+     * @param kansio johon tiedostot tallennetaan.
+     */
+    public void asetaKansio(String kansio) {
+        //TODO: Voisi lisata oikeellisuustarkistuksen.
+        this.tallennuskansio = new File(kansio);
+    }
+    
+    /**
+     * Lukee tiedot reseptivihkoon asetetusta kansiosta.
+     */
+    public void lue() {
+        this.reseptilista.lue(this.tallennuskansio);
+        this.rivilista.lue(this.tallennuskansio);
+        this.ainesosalista.lue(this.tallennuskansio);
+    }
+    
     // TODO:poista kun ei tarvita enää.
     /**
      * Lisää vihkoon mallireseptin ja siihen liittyvät rivit.
@@ -181,10 +208,4 @@ public class Reseptivihko {
         this.lisaa(rivit.get(0));
         this.lisaa(rivit.get(1));
     }
-    
-    
-    
-    
-    
-
 }

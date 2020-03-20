@@ -1,21 +1,15 @@
 package fxReseptivihko;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.ResourceBundle;
-
-import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ListChooser;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import fi.jyu.mit.fxgui.StringGrid;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import javafx.util.Pair;
 import reseptivihko.Ainesosa;
 import reseptivihko.Ainesosarivi;
@@ -114,7 +108,6 @@ public class ReseptivihkoGUILisaysController implements ModalControllerInterface
             stringGridRivit.add(ainesosa.getId(), taulukonrivi);
             this.riveja++;
         }
-        paivitaAinesosat();
     }
 
     @Override

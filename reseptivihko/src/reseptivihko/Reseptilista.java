@@ -1,6 +1,13 @@
 package reseptivihko;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,6 +24,7 @@ public class Reseptilista {
     private int lkm = 0;
     private int maxLkm = 50;
     private Resepti[] reseptit;
+    private String tiedostonNimi = "reseptit";
 
     
     
@@ -63,6 +71,9 @@ public class Reseptilista {
         return false;
     }
 
+    /** Lisää Reseptin listalle.
+     * @param resepti joka lisätään listalle.
+     */
     private void lisaaReseptiTaulukkoon(Resepti resepti) {
         if (this.lkm == this.maxLkm) {
             this.maxLkm *= 1.5;
@@ -148,6 +159,54 @@ public class Reseptilista {
         System.out.println(teeReseptit.size());
         Resepti teeResepti = reseptilista.haeResepti(5);
         System.out.println(teeResepti.toString());
+    }
+
+    /** Tallentaa Reseptilistan Reseptit annettuun kansioon.
+     * @param tallennuskansio jonne tallennetaan Reseptit.
+     * @throws FileNotFoundException jos ongelmia tiedoston varaamisessa.
+     */
+    public void tallenna(File tallennuskansio) throws FileNotFoundException {
+        File kohde = new File(tallennuskansio, this.tiedostonNimi + ".dat");
+        tallennuskansio.mkdirs();
+        //File kopio = new File(tallennuskansio, this.tiedostonNimi + ".bak");
+        //TODO: varmuuskopionti toimimaan.
+        
+        try (PrintStream ulos = new PrintStream(new FileOutputStream(kohde))) {
+            ulos.println(";id|nimi|ohje");
+            for (int i = 0; i < this.lkm; i++) ulos.println(this.reseptit[i].tiedostoriviksi());
+        } catch (FileNotFoundException e) {
+            // TODO Parempi virheenkasittely?
+            System.err.println(e.getMessage());
+            System.err.flush();
+        }
+    }
+
+    /** Lukee Reseptit listalle.
+     * @param kansio josta Reseptit luetaan.
+     * @throws VirheellinenSyottotietoException jos tiedoston lukemisessa on ongelmia.
+     * @throws FileNotFoundException jos tiedoston avaamisessa ongelmia.
+     */
+    public void lue(File kansio) throws VirheellinenSyottotietoException, FileNotFoundException {
+        this.lkm = 0;
+        File tiedosto = new File(kansio, this.tiedostonNimi + ".dat");
+        try (Scanner lukija = new Scanner(new FileInputStream(tiedosto))) {
+            String virhe = "";
+            int virheita = 0;
+            while (lukija.hasNextLine()) {
+                String rivi = lukija.nextLine();
+                if (rivi.length() == 0 || rivi.charAt(0) == ';') continue;
+                try {
+                    this.lisaa(new Resepti().parse(rivi));
+                } catch (VirheellinenSyottotietoException e) {
+                   virhe = e.getMessage();
+                   virheita++;
+                }
+            }
+            if (virheita > 0) throw new VirheellinenSyottotietoException(
+                    String.format("Viallisia rivejä %d kpl Reseptejä luettaessa: %s", 
+                            virheita, virhe));
+        }
+
     }
 
 

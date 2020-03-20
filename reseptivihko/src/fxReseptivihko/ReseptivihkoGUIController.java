@@ -43,8 +43,8 @@ public class ReseptivihkoGUIController implements Initializable {
     }
     
     @FXML
-    private void tallenna() {
-        Dialogs.showMessageDialog("Tämä toiminto ei ole vielä käytössä.");
+    private void handleTallenna() {
+        tallenna();
     }
 
     @FXML
@@ -115,21 +115,28 @@ public class ReseptivihkoGUIController implements Initializable {
  //-----------------------------------------------------------------------------
  // Tästä eteenpäin ei käyttöliittymään suoraan liittyvää koodia
     
+    //TODO: lisää reseptin poistaminen
+    //TODO: aineosilla haku
+    
+    
     private Reseptivihko vihko;
     private Resepti valittuResepti = null;
     
     private void alusta() {
-        // TODO Auto-generated method stub
-        setVihko(Reseptivihko.mallivihko());
         chooserValitutAinesosat.clear();
-        paivitaReseptit();
+        labelReseptinNimi.setText("");
+        stringGridRivit.clear();
+        textAreaTyoOhje.clear();
+        textKerroin.setText("1");
     }
     
     /**
      * Asettaa Reseptivihon
+     * @param vihko Avattava Reseptivihko.
      */
-    private void setVihko(Reseptivihko vihko) {
+    public void setVihko(Reseptivihko vihko) {
         this.vihko = vihko;
+        paivitaKaikki();
     }
     
     /**
@@ -225,5 +232,12 @@ public class ReseptivihkoGUIController implements Initializable {
         paivitaOhje();
         paivitaRivit();
         //TODO: lisää päivitä ainesosat
+    }
+    
+    /**
+     * Tallentaa tiedot.
+     */
+    private void tallenna() {
+        this.vihko.tallenna();
     }
 }

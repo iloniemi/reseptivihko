@@ -2,8 +2,15 @@ package reseptivihko.test;
 
 import reseptivihko.*;
 import static org.junit.Assert.*;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 import org.junit.*;
+
+import apufunktioita.Apufunktioita;
+import fi.jyu.mit.ohj2.VertaaTiedosto;
 
 /**
  * @author Juho
@@ -118,4 +125,80 @@ public class ReseptilistaTest {
         assertEquals("Väärä Resepti", resepti2, reseptilista.haeResepti(2));      
         assertEquals("Väärä Resepti", resepti1, reseptilista.haeResepti(1));      
     }
+    
+    /**
+     * Testaa reseptilistan tallentamista tiedostoon.
+     */
+    @Test
+    public void testTallenna() {
+        Reseptilista reseptilista = new Reseptilista();
+        Resepti resepti1 = new Resepti();
+        try {resepti1.parse("1|Tee|Kuumenna vesi kiehuvaksi.§Uita teepussia vedessä.§Nauti.");
+        reseptilista.lisaa(resepti1);
+        } catch (VirheellinenSyottotietoException e) { fail("Testissa vikaa: " + e.getMessage()); };
+        Resepti resepti2 = new Resepti();
+        try {resepti2.parse("2|Tee2|Kuumenna vesi.§Uita teepussia vedessä 10 min.§Nauti.");            
+        reseptilista.lisaa(resepti2);
+        } catch (VirheellinenSyottotietoException e) { fail("Testissa vikaa: " + e.getMessage()); };
+        
+        File kansio = new File("testi089780898977789");
+        kansio.delete();
+        File tiedosto = new File(kansio,"reseptit.dat");
+        try {
+            reseptilista.tallenna(kansio);
+        } catch (FileNotFoundException e) {
+            fail("Virhe tallentaessa: " + e.getMessage());
+        }
+        
+        String pitaisiOlla = ";id|nimi|ohje\n"
+                + "1|Tee|Kuumenna vesi kiehuvaksi.§Uita teepussia vedessä.§Nauti.\n"
+                + "2|Tee2|Kuumenna vesi.§Uita teepussia vedessä 10 min.§Nauti.\n";
+        
+        try {
+            tiedosto.renameTo(new File("reseptit.dat"));
+            assertEquals(null, VertaaTiedosto.vertaaFileString("reseptit.dat", pitaisiOlla));
+        } catch (IOException e) {
+            fail("Ei tehnyt tiedoston vertauksia. " + e.getMessage());
+        }
+    }
+    
+    /**
+     * Testaa reseptilistan lukemista tiedostosta.
+     */
+    @Test
+    public void testLue() {
+        File kansio = new File("testi03423452345");
+        kansio.delete();
+        kansio.mkdirs();
+        
+        String sisalto = ";id|nimi|ohje\n"
+                + "1|Tee|Kuumenna vesi kiehuvaksi.§Uita teepussia vedessä.§Nauti.\n"
+                + "2|Tee2|Kuumenna vesi.§Uita teepussia vedessä 10 min.§Nauti.\n";
+        try {
+            VertaaTiedosto.kirjoitaTiedosto("reseptit.dat", sisalto);
+        } catch (IOException e) {
+            fail("Testitiedoston luomisessa virhe: " + e.getMessage());
+        }
+        File luotutiedosto = new File("reseptit.dat");
+        File oikeaPaikka = new File(kansio, "reseptit.dat");
+        luotutiedosto.renameTo(oikeaPaikka);
+        
+        Reseptilista reseptilista = new Reseptilista();
+        try {
+            reseptilista.lue(kansio);
+        } catch (FileNotFoundException | VirheellinenSyottotietoException e) {
+            fail("Virhe lukiessa: " + e.getMessage());
+        }
+        
+        Resepti tee = reseptilista.haeResepti(1);
+        Resepti tee2 = reseptilista.haeResepti(2);
+        
+        assertEquals("Tee", tee.getNimi());
+        assertEquals("Kuumenna vesi kiehuvaksi.\nUita teepussia vedessä.\nNauti."
+                , tee.getOhje());
+        assertEquals("Tee2", tee2.getNimi());
+        assertEquals("Kuumenna vesi.\nUita teepussia vedessä 10 min.\nNauti."
+                , tee2.getOhje());
+    }
 }
+
