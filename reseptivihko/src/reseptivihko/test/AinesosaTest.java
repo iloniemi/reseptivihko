@@ -69,4 +69,22 @@ public class AinesosaTest {
             fail("Virhe: " + e.getMessage());
         }
     }
+    
+    /**
+     * Testaa tiedostoriviksi muotoilua.
+     */
+    @Test
+    public void testTiedostoriviksi() {
+        Ainesosa ainesosa;
+        try { 
+            String eka = "5|vehnäjauhoja";
+            ainesosa = new Ainesosa().parse(eka);
+            assertEquals(eka, ainesosa.tiedostoriviksi());
+            String toka = "2|voita";
+            ainesosa = new Ainesosa().parse(toka);
+            assertEquals(toka, ainesosa.tiedostoriviksi());
+        } catch (VirheellinenSyottotietoException e) {
+            fail("Virhe parsiessa: " + e.getMessage());            
+        }
+    }
 }

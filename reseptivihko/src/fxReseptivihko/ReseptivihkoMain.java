@@ -3,6 +3,7 @@ package fxReseptivihko;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import reseptivihko.Reseptivihko;
+import reseptivihko.VirheellinenSyottotietoException;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.fxml.FXMLLoader;
@@ -27,7 +28,9 @@ public class ReseptivihkoMain extends Application {
 			primaryStage.setTitle("Reseptivihko");
 			
 			
-			controllerGUI.setVihko(Reseptivihko.mallivihko());
+			Reseptivihko vihko = new Reseptivihko();
+			vihko.asetaKansio("oma");
+			controllerGUI.setVihko(vihko);
 			
 			primaryStage.show();
 		} catch(Exception e) {

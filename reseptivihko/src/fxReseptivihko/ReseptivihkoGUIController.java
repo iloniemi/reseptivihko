@@ -20,6 +20,7 @@ import reseptivihko.Ainesosa;
 import reseptivihko.Ainesosarivi;
 import reseptivihko.Resepti;
 import reseptivihko.Reseptivihko;
+import reseptivihko.VirheellinenSyottotietoException;
 
 /**
  * @author Juho
@@ -136,6 +137,14 @@ public class ReseptivihkoGUIController implements Initializable {
      */
     public void setVihko(Reseptivihko vihko) {
         this.vihko = vihko;
+        try {
+            vihko.lue();
+        } catch (VirheellinenSyottotietoException e) {
+            this.vihko = new Reseptivihko();
+            Dialogs.showMessageDialog("Virheitä luettavissa tiedostoissa.\n"
+                    + "Avattiin uusi reseptivihko.\nVirheviesti:\n"
+                    + e.getMessage());
+        }
         paivitaKaikki();
     }
     

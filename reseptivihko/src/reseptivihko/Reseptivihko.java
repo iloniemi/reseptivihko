@@ -1,6 +1,7 @@
 package reseptivihko;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -14,7 +15,7 @@ public class Reseptivihko {
     private Reseptilista reseptilista = null;
     private Rivilista rivilista = null;
     private Ainesosalista ainesosalista = null;
-    private File tallennuskansio = new File("oma");
+    private File tallennuskansio = new File("oletus");
     
     /**
      * Alustaa Reseptivihon.
@@ -169,11 +170,11 @@ public class Reseptivihko {
         return mallivihko;
     }
     
-    //TODO: testit naille
     /**
      * Tallentaan listojen tiedot tiedostoihinsa.
      */
     public void tallenna() {
+        //TODO: Virheenkäsittelyä tallentamiseen
         this.reseptilista.tallenna(this.tallennuskansio);
         this.rivilista.tallenna(this.tallennuskansio);
         this.ainesosalista.tallenna(this.tallennuskansio);
@@ -184,17 +185,44 @@ public class Reseptivihko {
      * @param kansio johon tiedostot tallennetaan.
      */
     public void asetaKansio(String kansio) {
-        //TODO: Voisi lisata oikeellisuustarkistuksen.
+        //TODO: Voisi lisätä oikeellisuustarkistuksen.
         this.tallennuskansio = new File(kansio);
     }
     
     /**
      * Lukee tiedot reseptivihkoon asetetusta kansiosta.
+     * @throws VirheellinenSyottotietoException jos tiedostojen sisällössä on vikaa.
      */
-    public void lue() {
-        this.reseptilista.lue(this.tallennuskansio);
-        this.rivilista.lue(this.tallennuskansio);
-        this.ainesosalista.lue(this.tallennuskansio);
+    public void lue() throws VirheellinenSyottotietoException {
+        StringBuilder virheet = new StringBuilder();
+        try {
+            this.reseptilista.lue(this.tallennuskansio);
+        } catch (FileNotFoundException e) {
+            // TODO Virheenkäsittely, jos tiedoston lataamisissa vikaa.
+            System.err.println(e.getMessage());
+            System.err.flush();
+        } catch (VirheellinenSyottotietoException e) {
+            virheet.append('\n').append(e.getMessage());
+        }
+        try {
+            this.rivilista.lue(this.tallennuskansio);
+        } catch (FileNotFoundException e) {
+            System.err.println(e.getMessage());
+            System.err.flush();
+        } catch (VirheellinenSyottotietoException e) {
+            virheet.append(e.getMessage()).append('\n');
+        }
+        try {
+            this.ainesosalista.lue(this.tallennuskansio);
+        } catch (FileNotFoundException e) {
+            System.err.println(e.getMessage());
+            System.err.flush();
+        } catch (VirheellinenSyottotietoException e) {
+            virheet.append('\n').append(e.getMessage());
+        }
+        if (virheet.length() > 1) throw new VirheellinenSyottotietoException(virheet.substring(1));
+        //Ei pitäisi koskaan tulla, mutta jos sattuu tulemaan tyhjä virheilmoitus.
+        if (virheet.length() > 0) throw new VirheellinenSyottotietoException(virheet.toString());
     }
     
     // TODO:poista kun ei tarvita enää.

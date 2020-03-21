@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  */
 public class Rivilista {
     private LinkedList<Ainesosarivi> rivit;
-    private String tiedostonNimi = "ainesosarivit";
+    private final static String TIEDOSTON_NIMI = "ainesosarivit";
     
     /**
      * Konstruktori alustaa rivit -listan.
@@ -68,9 +68,9 @@ public class Rivilista {
      * @param tallennuskansio johon tallennetaan
      */
     public void tallenna(File tallennuskansio) {
-        File kohde = new File(tallennuskansio, this.tiedostonNimi + ".dat");
+        File kohde = new File(tallennuskansio, Rivilista.TIEDOSTON_NIMI + ".dat");
         tallennuskansio.mkdirs();
-        //File kopio = new File(tallennuskansio, this.tiedostonNimi + ".bak");
+        //File kopio = new File(tallennuskansio, Rivilista.tiedostonNimi + ".bak");
         //TODO: varmuuskopionti toimimaan.
         
         try (PrintStream ulos = new PrintStream(new FileOutputStream(kohde))) {
@@ -90,7 +90,7 @@ public class Rivilista {
      */
     public void lue(File kansio) throws VirheellinenSyottotietoException, FileNotFoundException {
         LinkedList<Ainesosarivi> uudetRivit = new LinkedList<>();
-        File tiedosto = new File(kansio, this.tiedostonNimi + ".dat");
+        File tiedosto = new File(kansio, Rivilista.TIEDOSTON_NIMI + ".dat");
         try (Scanner lukija = new Scanner(new FileInputStream(tiedosto))) {
             String virhe = "";
             int virheita = 0;

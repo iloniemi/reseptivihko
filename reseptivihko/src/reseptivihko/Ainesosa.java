@@ -58,4 +58,12 @@ public class Ainesosa {
     public String getNimi() {
         return nimi;
     }
+
+    /** Palauttaa rivin tiedot muotoiltuna tallennusta varten.
+     * id|nimi
+     * @return tallennusta varten muotoiltu rivi.
+     */
+    public String tiedostoriviksi() {
+        return String.format("%d|%s", this.getId(), this.getNimi());
+    }
 }

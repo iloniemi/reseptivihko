@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -24,7 +23,7 @@ public class Reseptilista {
     private int lkm = 0;
     private int maxLkm = 50;
     private Resepti[] reseptit;
-    private String tiedostonNimi = "reseptit";
+    private final static String TIEDOSTON_NIMI = "reseptit";
 
     
     
@@ -163,12 +162,11 @@ public class Reseptilista {
 
     /** Tallentaa Reseptilistan Reseptit annettuun kansioon.
      * @param tallennuskansio jonne tallennetaan Reseptit.
-     * @throws FileNotFoundException jos ongelmia tiedoston varaamisessa.
      */
-    public void tallenna(File tallennuskansio) throws FileNotFoundException {
-        File kohde = new File(tallennuskansio, this.tiedostonNimi + ".dat");
+    public void tallenna(File tallennuskansio) {
+        File kohde = new File(tallennuskansio, Reseptilista.TIEDOSTON_NIMI + ".dat");
         tallennuskansio.mkdirs();
-        //File kopio = new File(tallennuskansio, this.tiedostonNimi + ".bak");
+        //File kopio = new File(tallennuskansio, Reseptilista.TIEDOSTON_NIMI + ".bak");
         //TODO: varmuuskopionti toimimaan.
         
         try (PrintStream ulos = new PrintStream(new FileOutputStream(kohde))) {
@@ -188,7 +186,7 @@ public class Reseptilista {
      */
     public void lue(File kansio) throws VirheellinenSyottotietoException, FileNotFoundException {
         this.lkm = 0; // TODO: laita eri taulukkoon ensin ja vasta onnistuneen lukemisen jälkeen korvaa.
-        File tiedosto = new File(kansio, this.tiedostonNimi + ".dat");
+        File tiedosto = new File(kansio, Reseptilista.TIEDOSTON_NIMI + ".dat");
         try (Scanner lukija = new Scanner(new FileInputStream(tiedosto))) {
             String virhe = "";
             int virheita = 0;

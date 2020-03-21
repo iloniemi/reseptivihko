@@ -2,7 +2,6 @@ package apufunktioita;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -60,17 +59,5 @@ public class Apufunktioita {
             return false;
         }
         return true;
-    }
-    
-    public static void vertaaStringeja(String eka, String toka) {
-        System.out.println("Ekan pituus " + eka.length());
-        System.out.println("Tokan pituus " + toka.length());
-        for (int i = 0; i < Math.min(eka.length(), toka.length()); i++) {
-            if (eka.charAt(i) != toka.charAt(i)) {
-                System.out.println("Kohdassa " + i);
-                System.out.println("|" + eka.charAt(i) + "| vs |" + toka.charAt(i) + "|");
-                System.out.println("|" + ((int) eka.charAt(i)) + "| vs |" + ((int) toka.charAt(i)) + "|");
-            }
-        }
     }
 }

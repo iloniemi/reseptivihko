@@ -144,11 +144,7 @@ public class ReseptilistaTest {
         kansio.delete();
         File tiedosto = new File(kansio,"reseptit.dat");
         File tarkistustiedosto = new File("reseptit.dat");
-        try {
-            reseptilista.tallenna(kansio);
-        } catch (FileNotFoundException e) {
-            fail("Virhe tallentaessa: " + e.getMessage());
-        }
+        reseptilista.tallenna(kansio);
         
         String pitaisiOlla = ";id|nimi|ohje\n"
                 + "1|Tee|Kuumenna vesi kiehuvaksi.§Uita teepussia vedessä.§Nauti.\n"

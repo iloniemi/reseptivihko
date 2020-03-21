@@ -1,12 +1,12 @@
 package reseptivihko.test;
 
 import static org.junit.Assert.*;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 
 import org.junit.*;
 
-import fi.jyu.mit.ohj2.Tiedosto;
 import fi.jyu.mit.ohj2.VertaaTiedosto;
 import reseptivihko.*;
 
@@ -165,7 +165,11 @@ public class ReseptivihkoTest {
         this.vihko.tallenna();
         Reseptivihko uusiVihko = new Reseptivihko();
         uusiVihko.asetaKansio("testi");
-        uusiVihko.lue();
+        try {
+            uusiVihko.lue();
+        } catch (VirheellinenSyottotietoException e) {
+            fail("Virhe lukiessa: " + e.getMessage());
+        }
         for (int i = 1; i <= 8; i++) {
             assertEquals(String.format("Ainesosa %d ei ollut sama.", i), 
                     this.vihko.haeAinesosa(i).getNimi(), uusiVihko.haeAinesosa(i).getNimi());            
