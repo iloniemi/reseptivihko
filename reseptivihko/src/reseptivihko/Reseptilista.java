@@ -127,9 +127,10 @@ public class Reseptilista {
     }
 
     /**
-     * Hakee listan Reseptejä, joiden nimi vastaa hakusanoja.
-     * Hakusanoista poistetaan ylimääräiset tyhjät merkit, ja *- merkki
-     * tarkoittaa mitä tahansa merkkiä kuinka monta tahansa kertaa.
+     * Hakee aakkosjärjestyksessä olevan listan Reseptejä, joiden nimi 
+     * vastaa hakusanoja. Hakusanoista poistetaan ylimääräiset tyhjät 
+     * merkit, ja *- merkki tarkoittaa mitä tahansa merkkiä kuinka 
+     * monta tahansa kertaa.
      * @param hakusanat Haussa käytettävät sanat.
      * @return Lista Reseptejä, joiden nimi vastaa hakua.
      */
@@ -141,6 +142,7 @@ public class Reseptilista {
             Matcher m = pattern.matcher(this.reseptit[i].getNimi());
             if (m.matches()) palautettavat.add(this.reseptit[i]);
         }
+        palautettavat.sort(null);
         return palautettavat;
     }
 

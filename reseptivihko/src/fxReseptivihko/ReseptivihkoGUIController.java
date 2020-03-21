@@ -94,7 +94,7 @@ public class ReseptivihkoGUIController implements Initializable {
     }
 
     @FXML
-    private void uusiResepti() {
+    private void handleUusiResepti() {
         reseptinKasittely(new Resepti());
     }
 
@@ -103,6 +103,12 @@ public class ReseptivihkoGUIController implements Initializable {
         if (this.valittuResepti != null) reseptinKasittely(this.valittuResepti);
     }
     
+    
+    @FXML
+    private void handlePoistaResepti() {
+        poistaResepti();
+    }
+
     @FXML
     private void handleNaytaResepti() {
         naytaResepti();
@@ -223,12 +229,29 @@ public class ReseptivihkoGUIController implements Initializable {
     }
     
     /** Avaa ikkunan Reseptin käsittelyä varten.
+     * Jos palautetulle Reseptille annettiin id eli se tallennettiin,
+     * asetetaan se valituksi reseptiksi.
      * @param vihkoJaResepti Pari, jossa on Reseptivihko ja Resepti
      */
     private void reseptinKasittely(Resepti resepti) {
-        ModalController.showModal(ReseptivihkoGUIController.class
-                .getResource("ReseptivihkoGUILisaysView.fxml"), "Reseptin lisäys", 
-                null, new Pair<Reseptivihko, Resepti>(this.vihko, resepti));
+        Pair<Reseptivihko, Resepti> tulos = ModalController
+                .showModal(ReseptivihkoGUIController.class
+                        .getResource("ReseptivihkoGUILisaysView.fxml"), "Reseptin lisäys", 
+                        null, new Pair<Reseptivihko, Resepti>(this.vihko, resepti));
+        Resepti saatu = tulos.getValue();
+        if (saatu.getId() > 0) this.valittuResepti = saatu;
+        paivitaKaikki();
+    }
+    
+    /**
+     * Poistaa valitun Reseptin.
+     */
+    private void poistaResepti() {
+        if (valittuResepti == null) return;
+        if ( !Dialogs.showQuestionDialog("Poisto", "Poistetaanko " 
+                + this.valittuResepti.getNimi() + "?", "Kyllä", "Ei") ) return;
+        this.vihko.poistaResepti(this.valittuResepti);
+        this.valittuResepti = null;
         paivitaKaikki();
     }
     
@@ -236,11 +259,21 @@ public class ReseptivihkoGUIController implements Initializable {
      * Päivittää päänäkymän.
      */
     private void paivitaKaikki() {
+        tyhjennaReseptiNakyma();
         paivitaReseptit();
         paivitaNimi();
         paivitaOhje();
         paivitaRivit();
         //TODO: lisää päivitä ainesosat
+    }
+    
+    /**
+     * Tyhjentää valitun Reseptin tietoja esittelevät kentät.
+     */
+    private void tyhjennaReseptiNakyma() {
+        labelReseptinNimi.setText("");
+        textAreaTyoOhje.clear();
+        stringGridRivit.clear();
     }
     
     /**

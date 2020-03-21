@@ -28,8 +28,9 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Muokkaa">
             <items>
-              <MenuItem fx:id="menuReseptiUusi" onAction="#uusiResepti" mnemonicParsing="false" text="Lisää resepti..." />
+              <MenuItem fx:id="menuReseptiUusi" onAction="#handleUusiResepti" mnemonicParsing="false" text="Lisää resepti..." />
               <MenuItem fx:id="menuReseptiMuokkaa" onAction="#muokkaaReseptia" mnemonicParsing="false" text="Muokkaa reseptiä..." />
+              <MenuItem fx:id="menuReseptiPoista" onAction="#handlePoistaResepti" mnemonicParsing="false" text="Poista resepti..." />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Apua">
@@ -72,7 +73,7 @@
                <children>
                   <HBox>
                      <children>
-                        <Button fx:id="buttonReseptiUusi" onAction="#uusiResepti" mnemonicParsing="false" text="Uusi resepti" />
+                        <Button fx:id="buttonReseptiUusi" onAction="#handleUusiResepti" mnemonicParsing="false" text="Uusi resepti" />
                         <Button fx:id="buttonReseptiMuokkaa" onAction="#muokkaaReseptia" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Muokkaa reseptiä" />
                      </children>
                   </HBox>

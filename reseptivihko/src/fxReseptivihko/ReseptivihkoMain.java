@@ -3,7 +3,6 @@ package fxReseptivihko;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import reseptivihko.Reseptivihko;
-import reseptivihko.VirheellinenSyottotietoException;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.fxml.FXMLLoader;

@@ -133,6 +133,32 @@ public class ReseptivihkoTest {
     }
     
     /**
+     * Testaa Reseptin Ainesosarivien poistamista Reseptivihosta
+     */
+    @Test
+    public void testPoistaRivit() {
+        Resepti tryffelit = this.reseptit.get(1);
+        assertEquals("Väärä resepti haettu testaukseen.", 2, tryffelit.getId());
+        assertEquals("Alustuksessa vikaa.", 4, this.vihko.haeRivit(tryffelit).size());
+        this.vihko.poistaReseptinRivit(tryffelit);
+        assertEquals("Alustuksessa vikaa.", 0, this.vihko.haeRivit(tryffelit).size());
+    }
+    
+    /**
+     * Testaa Reseptin poistamista Reseptivihosta
+     */
+    @Test
+    public void testPoistaResepti() {
+        Resepti mutakakku = this.reseptit.get(0);
+        Resepti tryffelit = this.reseptit.get(1);
+        assertEquals("Väärä resepti haettu testaukseen.", 2, tryffelit.getId());
+        assertEquals("Alustuksessa vikaa.", 4, this.vihko.haeRivit(tryffelit).size());
+        this.vihko.poistaResepti(tryffelit);
+        assertEquals("Alustuksessa vikaa.", 0, this.vihko.haeRivit(tryffelit).size());
+        assertEquals("Pitäisi olla vain mutakakku jäljellä", mutakakku, this.vihko.haeReseptit("*", new ArrayList<Ainesosa>()).get(0));
+    }
+    
+    /**
      * Testaa Ainesosien hakemista Reseptivihosta
      */
     @Test

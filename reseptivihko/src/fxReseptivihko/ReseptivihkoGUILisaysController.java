@@ -30,7 +30,7 @@ public class ReseptivihkoGUILisaysController implements ModalControllerInterface
     @FXML private Button buttonLisaaRivi;
     @FXML private Button buttonPoistaRivi;
     @FXML private StringGrid<Integer> stringGridRivit;
-    @FXML private ListChooser<Ainesosa> chooserAinesosat; //TODO: Jotenkin tuoda ainesosatkin tanne
+    @FXML private ListChooser<Ainesosa> chooserAinesosat;
     
     
     
