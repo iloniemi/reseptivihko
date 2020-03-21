@@ -152,4 +152,13 @@ public class AinesosariviTest {
         fail("Vääränlaisia parametrejä sisältävän merkkijonon parsiminen ei olis pitänyt onnistua."); 
         } catch (VirheellinenSyottotietoException e) {e.getMessage();}
     }
+    
+    /**
+     * Testaa tiedostoriviksi muotoilua.
+     */
+    @Test
+    public void testTiedostoriviksi() {
+        assertEquals("1|1|200.000|g", new Ainesosarivi(1, 1, 200.0, "g").tiedostoriviksi());
+        assertEquals("5|7|8.000|kpl", new Ainesosarivi(5, 7, 8, "kpl").tiedostoriviksi());
+    }
 }

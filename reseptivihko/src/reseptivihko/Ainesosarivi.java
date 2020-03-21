@@ -1,6 +1,7 @@
 package reseptivihko;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -122,5 +123,15 @@ public class Ainesosarivi {
         mallirivit.add(new Ainesosarivi(reseptinId, 9, 2, "dl"));
         mallirivit.add(new Ainesosarivi(reseptinId, 10, 1, "kpl"));
         return mallirivit;
+    }
+
+    /** Palauttaa rivin tiedot muotoiltuna tallennusta varten.
+     * resepti_id|ainesosa_id|maara|yksikko
+     *         %d|         %d| %.3f|  %s
+     * @return tallennusta varten muotoiltu rivi.
+     */
+    public String tiedostoriviksi() {
+        return String.format(Locale.US, "%d|%d|%.3f|%s",
+                this.reseptiId, this.ainesosaId, this.maara, this.yksikko);
     }
 }

@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.util.List;
 import org.junit.*;
 
-import apufunktioita.Apufunktioita;
 import fi.jyu.mit.ohj2.VertaaTiedosto;
 
 /**
@@ -144,6 +143,7 @@ public class ReseptilistaTest {
         File kansio = new File("testi089780898977789");
         kansio.delete();
         File tiedosto = new File(kansio,"reseptit.dat");
+        File tarkistustiedosto = new File("reseptit.dat");
         try {
             reseptilista.tallenna(kansio);
         } catch (FileNotFoundException e) {
@@ -155,11 +155,15 @@ public class ReseptilistaTest {
                 + "2|Tee2|Kuumenna vesi.§Uita teepussia vedessä 10 min.§Nauti.\n";
         
         try {
-            tiedosto.renameTo(new File("reseptit.dat"));
+            tiedosto.renameTo(tarkistustiedosto);
             assertEquals(null, VertaaTiedosto.vertaaFileString("reseptit.dat", pitaisiOlla));
         } catch (IOException e) {
             fail("Ei tehnyt tiedoston vertauksia. " + e.getMessage());
         }
+        
+        //tehtyjen tiedostojen poisto
+        tarkistustiedosto.delete();
+        kansio.delete();
     }
     
     /**
@@ -199,6 +203,10 @@ public class ReseptilistaTest {
         assertEquals("Tee2", tee2.getNimi());
         assertEquals("Kuumenna vesi.\nUita teepussia vedessä 10 min.\nNauti."
                 , tee2.getOhje());
+        
+        //tehtyjen tiedostojen poisto
+        oikeaPaikka.delete();
+        kansio.delete();
     }
 }
 

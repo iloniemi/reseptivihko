@@ -1,7 +1,13 @@
 package reseptivihko;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 /** Rivilista -luokka pitää yllä listaa Ainesosariveistä.
@@ -10,7 +16,8 @@ import java.util.stream.Collectors;
  *
  */
 public class Rivilista {
-    LinkedList<Ainesosarivi> rivit;
+    private LinkedList<Ainesosarivi> rivit;
+    private String tiedostonNimi = "ainesosarivit";
     
     /**
      * Konstruktori alustaa rivit -listan.
@@ -57,4 +64,50 @@ public class Rivilista {
                 .toArray();
     }
 
+    /** Tallentaa Rivilistan Aineosarivien tiedot annettuun kansioon.
+     * @param tallennuskansio johon tallennetaan
+     */
+    public void tallenna(File tallennuskansio) {
+        File kohde = new File(tallennuskansio, this.tiedostonNimi + ".dat");
+        tallennuskansio.mkdirs();
+        //File kopio = new File(tallennuskansio, this.tiedostonNimi + ".bak");
+        //TODO: varmuuskopionti toimimaan.
+        
+        try (PrintStream ulos = new PrintStream(new FileOutputStream(kohde))) {
+            ulos.println(";resepti_id|ainesosa_id|maara|yksikko");
+            this.rivit.forEach(rivi -> ulos.println(rivi.tiedostoriviksi()));
+        } catch (FileNotFoundException e) {
+            // TODO Parempi virheenkasittely?
+            System.err.println(e.getMessage());
+            System.err.flush();
+        }
+    }
+
+    /** Lukee Ainesosarivit listalle annetusta kansiosta.
+     * @param kansio josta Ainesosarivit luetaan.
+     * @throws VirheellinenSyottotietoException jos tiedoston lukemisessa on ongelmia.
+     * @throws FileNotFoundException jos tiedoston avaamisessa ongelmia.
+     */
+    public void lue(File kansio) throws VirheellinenSyottotietoException, FileNotFoundException {
+        LinkedList<Ainesosarivi> uudetRivit = new LinkedList<>();
+        File tiedosto = new File(kansio, this.tiedostonNimi + ".dat");
+        try (Scanner lukija = new Scanner(new FileInputStream(tiedosto))) {
+            String virhe = "";
+            int virheita = 0;
+            while (lukija.hasNextLine()) {
+                String rivi = lukija.nextLine();
+                if (rivi.length() == 0 || rivi.charAt(0) == ';') continue;
+                try {
+                    uudetRivit.add(new Ainesosarivi(rivi));
+                } catch (VirheellinenSyottotietoException e) {
+                   virhe = e.getMessage();
+                   virheita++;
+                }
+            }
+            if (virheita > 0) throw new VirheellinenSyottotietoException(
+                    String.format("Viallisia rivejä %d kpl Ainesosarivejä luettaessa: %s", 
+                            virheita, virhe));
+        }
+        this.rivit = uudetRivit;
+    }
 }

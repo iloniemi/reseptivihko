@@ -187,7 +187,7 @@ public class Reseptilista {
      * @throws FileNotFoundException jos tiedoston avaamisessa ongelmia.
      */
     public void lue(File kansio) throws VirheellinenSyottotietoException, FileNotFoundException {
-        this.lkm = 0;
+        this.lkm = 0; // TODO: laita eri taulukkoon ensin ja vasta onnistuneen lukemisen jälkeen korvaa.
         File tiedosto = new File(kansio, this.tiedostonNimi + ".dat");
         try (Scanner lukija = new Scanner(new FileInputStream(tiedosto))) {
             String virhe = "";
@@ -208,8 +208,4 @@ public class Reseptilista {
         }
 
     }
-
-
-    
-
 }
