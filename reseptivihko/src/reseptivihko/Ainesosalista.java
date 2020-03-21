@@ -43,7 +43,7 @@ public class Ainesosalista {
     
     /** Palauttaa listan Ainesosia, joiden nimessä esiintyy hakuteksti.
      * Tyhjä merkkijono palauttaa kaikki Ainesosat.
-     * 
+     * Palautettavat Ainesosat ovat aakkosjärjestyksessä.
      * @param hakuteksti teksti, jolla haetaan
      * @return ArrayList hakua vastaavia Ainesosia
      */
@@ -57,6 +57,7 @@ public class Ainesosalista {
             Matcher matcher = kuvio.matcher(ainesosa.getNimi());
             if (matcher.matches()) palautettavat.add(ainesosa);
         }
+        palautettavat.sort(null);
         return palautettavat;
     }
     

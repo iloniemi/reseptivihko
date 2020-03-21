@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
  * @version 1 Mar 2020
  *
  */
-public class Ainesosa {
+public class Ainesosa implements Comparable<Ainesosa> {
     private static int SEURAAVA_ID = 0;
     private int id = -1;
     private String nimi = "";
@@ -57,6 +57,11 @@ public class Ainesosa {
      */
     public String getNimi() {
         return nimi;
+    }
+    
+    @Override
+    public int compareTo(Ainesosa ainesosa2) {
+        return this.getNimi().compareToIgnoreCase(ainesosa2.getNimi());
     }
 
     /** Palauttaa rivin tiedot muotoiltuna tallennusta varten.

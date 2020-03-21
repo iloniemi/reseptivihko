@@ -49,21 +49,20 @@
                </padding>
                <children>
                   <Label text="Nimellä haku" />
-                  <TextField fx:id="textReseptiHaku" text="*" />
-                  <Button fx:id="buttonHaku" onAction="#handleHaeReseptit" mnemonicParsing="false" text="Hae" />
+                  <TextField fx:id="textReseptiHaku" onKeyReleased="#handleHaeReseptit" text="*" />
                   <Label text="Ainesosahaku">
                      <padding>
                         <Insets top="5.0" />
                      </padding></Label>
-                  <TextField fx:id="textAinesosa" onKeyReleased="#handlePaivitaAinesosat" text="sukl" />
+                  <TextField fx:id="textAinesosaHaku" onKeyReleased="#handlePaivitaAinesosat" text="sukl" />
                   <ListChooser fx:id="chooserAinesosat" rivit="tumma suklaa&#10;maitosuklaa" VBox.vgrow="ALWAYS" />
-                  <Button fx:id="buttonAinesosatLisaa" onAction="#lisaaAinesosa" mnemonicParsing="false" text="Lisää" />
+                  <Button fx:id="buttonAinesosatLisaaListalle" onAction="#handleLisaaAinesosaListalle" mnemonicParsing="false" text="Lisää" />
                   <Label text="Valitut ainesosat">
                      <padding>
                         <Insets top="5.0" />
                      </padding></Label>
                   <ListChooser fx:id="chooserValitutAinesosat" layoutX="15.0" layoutY="94.0" rivit="voi" />
-                  <Button fx:id="buttonAinesosatPoista" onAction="#poistaAinesosa" layoutX="15.0" layoutY="52.0" mnemonicParsing="false" text="Poista" />
+                  <Button fx:id="buttonAinesosatPoistaListalta" onAction="#handlePoistaAinesosalistalta" layoutX="15.0" layoutY="52.0" mnemonicParsing="false" text="Poista" />
                </children>
             </VBox>
             <VBox layoutX="10.0" layoutY="10.0" prefWidth="200.0">

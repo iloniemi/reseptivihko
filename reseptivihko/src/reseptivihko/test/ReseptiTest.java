@@ -78,6 +78,18 @@ public class ReseptiTest {
         Resepti resepti2 = new Resepti();
         assertEquals("Seuraava asetettu id ei ollut yhtä suurempi kuin edellinen", resepti2.setId(), resepti1.getId() + 1);
     }
+    
+    /**
+     * Testaa Reseptien vertailua.
+     */
+    @Test
+    public void testCompare() {
+        Resepti ahven1 = new Resepti(); ahven1.setNimi("ahven");
+        Resepti ahven2 = new Resepti(); ahven2.setNimi("ahvEn");
+        Resepti ahven3 = new Resepti(); ahven3.setNimi("ahvCn");
+        assertEquals("Kirjaimen koolla ei pitäisi olla väliä.", 0, ahven1.compareTo(ahven2));
+        assertEquals("ahven pitäisi olla ennen ahvCn", 2, ahven1.compareTo(ahven3));
+    }
 
     /**
      * Testaa parse() -metodia

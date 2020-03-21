@@ -3,6 +3,7 @@ package fxReseptivihko;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -29,6 +30,7 @@ import reseptivihko.VirheellinenSyottotietoException;
  */
 public class ReseptivihkoGUIController implements Initializable {
     
+    @FXML private TextField textAinesosaHaku;
     @FXML private TextField textReseptiHaku;
     @FXML private TextField textKerroin;
     @FXML private ListChooser<Resepti> chooserReseptit;
@@ -80,17 +82,17 @@ public class ReseptivihkoGUIController implements Initializable {
 
     @FXML
     private void handlePaivitaAinesosat() {
-        Dialogs.showMessageDialog("Tämä toiminto ei ole vielä käytössä.");
+        paivitaAinesosat();
     }
 
     @FXML
-    private void lisaaAinesosa() {
-        Dialogs.showMessageDialog("Tämä toiminto ei ole vielä käytössä.");
+    private void handleLisaaAinesosaListalle() {
+        lisaaAinesosaListalle();
     }
 
     @FXML
-    private void poistaAinesosa() {
-        Dialogs.showMessageDialog("Tämä toiminto ei ole vielä käytössä.");
+    private void handlePoistaAinesosalistalta() {
+        poistaAinesosaListalta();
     }
 
     @FXML
@@ -130,6 +132,8 @@ public class ReseptivihkoGUIController implements Initializable {
     private Resepti valittuResepti = null;
     
     private void alusta() {
+        textAinesosaHaku.clear();
+        chooserAinesosat.clear();
         chooserValitutAinesosat.clear();
         labelReseptinNimi.setText("");
         stringGridRivit.clear();
@@ -177,7 +181,42 @@ public class ReseptivihkoGUIController implements Initializable {
         paivitaRivit();
         paivitaOhje();
     }
+
+    /**
+     * Lisää ainesosan hakuehtoja sisältävään chooseriin.
+     */
+    private void lisaaAinesosaListalle() {
+        Ainesosa valittu = chooserAinesosat.getSelectedObject();
+        if (valittu == null) return;
+        List<Ainesosa> valitut = chooserValitutAinesosat.getObjects();
+        if (valitut == null) return;
+        if (valitut.contains(valittu)) return;
+        chooserValitutAinesosat.add(valittu.getNimi(), valittu);
+        paivitaReseptit();
+    }
     
+    /**
+     * Poistaa ainesosan hakuehtoja sisältävästä chooserista.
+     */
+    private void poistaAinesosaListalta() {
+        Ainesosa valittu = chooserValitutAinesosat.getSelectedObject();
+        if (valittu == null) return;
+        List<Ainesosa> valitut = chooserValitutAinesosat.getObjects();
+        valitut.removeIf(ainesosa -> ainesosa == valittu);
+        chooserValitutAinesosat.clear();
+        for (Ainesosa ainesosa: valitut) chooserValitutAinesosat.add(ainesosa.getNimi(), ainesosa);
+        paivitaReseptit();
+    }
+    
+    /**
+     * Päivittää hakua varten näytettävät ainesosat.
+     */
+    private void paivitaAinesosat() {
+        chooserAinesosat.clear();
+        ArrayList<Ainesosa> ainesosat = this.vihko.haeAinesosat(textAinesosaHaku.getText());
+        for (Ainesosa ainesosa : ainesosat) chooserAinesosat.add(ainesosa.getNimi(), ainesosa);
+    }
+
     /**
      * Päivittää näytetävän Reseptin nimen.
      */
@@ -264,7 +303,7 @@ public class ReseptivihkoGUIController implements Initializable {
         paivitaNimi();
         paivitaOhje();
         paivitaRivit();
-        //TODO: lisää päivitä ainesosat
+        paivitaAinesosat();
     }
     
     /**

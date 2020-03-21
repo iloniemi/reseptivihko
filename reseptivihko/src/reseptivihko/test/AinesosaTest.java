@@ -70,6 +70,19 @@ public class AinesosaTest {
         }
     }
     
+    
+    /**
+     * Testaa Reseptien vertailua.
+     */
+    @Test
+    public void testCompare() {
+        Ainesosa ahven1 = new Ainesosa("ahven");
+        Ainesosa ahven2 = new Ainesosa("ahvEn");
+        Ainesosa ahven3 = new Ainesosa("ahvCn");
+        assertEquals("Kirjaimen koolla ei pitäisi olla väliä.", 0, ahven1.compareTo(ahven2));
+        assertEquals("ahven pitäisi olla ennen ahvCn", 2, ahven1.compareTo(ahven3));
+    }
+    
     /**
      * Testaa tiedostoriviksi muotoilua.
      */
