@@ -138,7 +138,7 @@ public class Reseptilista {
         ArrayList<Resepti> palautettavat = new ArrayList<>();
         //Tarkistus erikoismerkkien varalta, etta kaaret eivat pilaa regexia.
         //TODO: tarvitaanko muita merkkejä?
-        if (!hakusanat.matches("^[a-öA-Ö0-9\\*\\-]*$")) return palautettavat;
+        if (!hakusanat.matches("^[a-öA-Ö0-9\\*\\-\\s]*$")) return palautettavat;
         String regex = Apufunktioita.rajuTrim(hakusanat).replace("*", ".*").toLowerCase();
         Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
         for (int i = 0; i < this.lkm; i++) {

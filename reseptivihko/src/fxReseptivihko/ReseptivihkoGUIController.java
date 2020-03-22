@@ -1,5 +1,10 @@
 package fxReseptivihko;
 
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,11 +16,13 @@ import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ListChooser;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.StringGrid;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.DirectoryChooser;
 import javafx.util.Pair;
 import reseptivihko.Ainesosa;
 import reseptivihko.Ainesosarivi;
@@ -51,27 +58,27 @@ public class ReseptivihkoGUIController implements Initializable {
     }
 
     @FXML
-    private void avaaReseptivihko() {
-        Dialogs.showMessageDialog("Tämä toiminto ei ole vielä käytössä.");
+    private void handleAvaaReseptivihko() {
+        vaihdaVihkoa();
     }
  
     @FXML
-    private void tulostaResepti() {
+    private void handleTulostaResepti() {
         Dialogs.showMessageDialog("Tämä toiminto ei ole vielä käytössä.");
     }
 
     @FXML
-    private void lopeta() {
-        Dialogs.showMessageDialog("Tämä toiminto ei ole vielä käytössä.");
+    private void handleLopeta() {
+        if (saakoSulkea()) Platform.exit();
     }
     
     @FXML
-    private void apua() {
-        Dialogs.showMessageDialog("Tämä toiminto ei ole vielä käytössä.");
+    private void handleApua() {
+        apua();
     }
     
     @FXML
-    private void tietoja() {
+    private void handleTietoja() {
         Dialogs.showMessageDialog("Tämä toiminto ei ole vielä käytössä.");
     }
 
@@ -132,6 +139,7 @@ public class ReseptivihkoGUIController implements Initializable {
     private Resepti valittuResepti = null;
     
     private void alusta() {
+        valittuResepti = null;
         textAinesosaHaku.clear();
         chooserAinesosat.clear();
         chooserValitutAinesosat.clear();
@@ -320,5 +328,49 @@ public class ReseptivihkoGUIController implements Initializable {
      */
     private void tallenna() {
         this.vihko.tallenna();
+    }
+    
+    /** Tarkistaa halutaanko tallentaa tehdyt muutokset ennenkuin antaa luvan sulkea.
+     * @return saako ohjelman sulkea.
+     */
+    public boolean saakoSulkea() {
+        if (!this.vihko.muutoksia()) return true;
+        if (Dialogs.showQuestionDialog("Tallennetaanko?", "Vihkoon on tehty muutoksia.\n"
+                + "Haluatko tallentaa ne ennen sulkemista?","Kyllä", "Ei") ) tallenna();
+        return true;
+    }
+    
+    /**
+     * Avaa tiedostonvalitsimen ja antaa valita kansion.
+     * Luodaan uusi vihko, jonka tallennuskansioksi asetetaan valittu kansio.
+     * Jos kansiosta löytyy tarvittavat tiedostot, ne luetaan.
+     */
+    private void vaihdaVihkoa()  {
+        DirectoryChooser valitsin = new DirectoryChooser();
+        valitsin.setInitialDirectory(new File("."));
+        File valittuKansio = valitsin.showDialog(null);
+        if (valittuKansio == null) return; 
+        Dialogs.showMessageDialog("Avattiin\n" + valittuKansio.getName());
+        Reseptivihko uusiVihko = new Reseptivihko();
+        uusiVihko.asetaKansio(valittuKansio.toString());
+        alusta();
+        setVihko(uusiVihko);
+    }
+    
+
+    
+    /**
+     * Avataan suunnitelma selaimeeen.
+     */
+    private void apua() {
+        Desktop desktop = Desktop.getDesktop();
+        try {
+            URI uri = new URI("https://tim.jyu.fi/view/kurssit/tie/ohj2/2020k/ht/jumailon");
+            desktop.browse(uri);
+        } catch (URISyntaxException e) {
+            return;
+        } catch (IOException e) {
+            return;
+        }
     }
 }

@@ -56,10 +56,12 @@ public class Ainesosalista {
      */
     public ArrayList<Ainesosa> haeAinesosat(String hakuteksti) {
         if (hakuteksti.length() == 0) return this.ainesosat;
-        
+        ArrayList<Ainesosa> palautettavat = new ArrayList<Ainesosa>();
+        //Tarkistus erikoismerkkien varalta, etta kaaret eivat pilaa regexia.
+        //TODO: tarvitaanko muita merkkejä?
+        if (!hakuteksti.matches("^[a-öA-Ö0-9\\*\\-\\s]*$")) return palautettavat;
         String regex = ".*" + hakuteksti.replace("*", ".*") + ".*";
         Pattern kuvio = Pattern.compile(regex.toLowerCase());
-        ArrayList<Ainesosa> palautettavat = new ArrayList<Ainesosa>();
         for (Ainesosa ainesosa: this.ainesosat) {
             Matcher matcher = kuvio.matcher(ainesosa.getNimi().toLowerCase());
             if (matcher.matches()) palautettavat.add(ainesosa);

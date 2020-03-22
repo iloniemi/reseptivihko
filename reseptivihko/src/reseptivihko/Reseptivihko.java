@@ -16,6 +16,7 @@ public class Reseptivihko {
     private Rivilista rivilista = null;
     private Ainesosalista ainesosalista = null;
     private File tallennuskansio = new File("oletus");
+    private boolean muutoksia = false;
     
     /**
      * Alustaa Reseptivihon.
@@ -43,14 +44,15 @@ public class Reseptivihko {
      * @param resepti Lisättävä resepti.
      */
     public void lisaa(Resepti resepti) {
+        this.muutoksia = true;
         this.reseptilista.lisaa(resepti);
-        
     }
 
     /** Lisää Ainesosarivin vihkon Rivilistalle.
      * @param rivi Lisättävä rivi.
      */
     public void lisaa(Ainesosarivi rivi) {
+        this.muutoksia = true;
         this.rivilista.lisaa(rivi);
         
     }
@@ -59,6 +61,7 @@ public class Reseptivihko {
      * @param ainesosa Lisättävä ainesosa.
      */
     public void lisaa(Ainesosa ainesosa) {
+        this.muutoksia = true;
         this.ainesosalista.lisaa(ainesosa);
     }
 
@@ -117,6 +120,7 @@ public class Reseptivihko {
      * @param resepti Resepti, jonka Ainesosarivit poistetaan
      */
     public void poistaReseptinRivit(Resepti resepti) {
+        this.muutoksia = true;
         // TODO Testit TÄLLE
         this.rivilista.poistaReseptinRivit(resepti.getId());
     }
@@ -125,6 +129,7 @@ public class Reseptivihko {
      * @param poistettava Resepti.
      */
     public void poistaResepti(Resepti poistettava) {
+        this.muutoksia = true;
         this.reseptilista.poistaResepti(poistettava.getId());
         this.poistaReseptinRivit(poistettava);
     }
@@ -137,6 +142,7 @@ public class Reseptivihko {
         this.reseptilista.tallenna(this.tallennuskansio);
         this.rivilista.tallenna(this.tallennuskansio);
         this.ainesosalista.tallenna(this.tallennuskansio);
+        this.muutoksia = false;
     }
     
     /** Asettaa tallennukseen käytettävän kansion.
@@ -146,6 +152,7 @@ public class Reseptivihko {
     public void asetaKansio(String kansio) {
         //TODO: Voisi lisätä oikeellisuustarkistuksen.
         this.tallennuskansio = new File(kansio);
+        this.muutoksia = true;
     }
     
     /**
@@ -153,6 +160,12 @@ public class Reseptivihko {
      * @throws VirheellinenSyottotietoException jos tiedostojen sisällössä on vikaa.
      */
     public void lue() throws VirheellinenSyottotietoException {
+        //TODO: Voisi lisätä metodin, jolla kysyä listoilta tiedoston.
+        //TODO: uuden luodessa tämä ei aseta falseksi
+        if ( !(new File(this.tallennuskansio, "reseptit.dat").exists()) 
+                || !(new File(this.tallennuskansio, "ainesosat.dat").exists())
+                || !(new File(this.tallennuskansio, "ainesosarivit.dat").exists()) ) return;
+        
         StringBuilder virheet = new StringBuilder();
         try {
             this.reseptilista.lue(this.tallennuskansio);
@@ -182,6 +195,8 @@ public class Reseptivihko {
         if (virheet.length() > 1) throw new VirheellinenSyottotietoException(virheet.substring(1));
         //Ei pitäisi koskaan tulla, mutta jos sattuu tulemaan tyhjä virheilmoitus.
         if (virheet.length() > 0) throw new VirheellinenSyottotietoException(virheet.toString());
+        
+        this.muutoksia = false;
     }
     
     /** Yritää lisätä uuden Ainesosan. Ei lisää, jos löytyy samanniminen Ainesosa.
@@ -189,6 +204,7 @@ public class Reseptivihko {
      * @return lisättiinkö uusi Ainesosa.
      */
     public boolean lisaaAinesosa(String nimi) {
+        this.muutoksia = true;
         return this.ainesosalista.lisaa(nimi);
     }
 
@@ -205,7 +221,13 @@ public class Reseptivihko {
         return poistettavanReseptit;
     }
 
-    
+    /** Kertoo onko vihkon sisältöön tehty muutoksia sitten 
+     * luomisen tai viime tallennuksen.
+     * @return onko muutoksia.
+     */
+    public boolean muutoksia() {
+        return this.muutoksia;
+    }
     
     // TODO:poista kun ei tarvita enää.
     /**

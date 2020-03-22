@@ -21,9 +21,9 @@
           <Menu mnemonicParsing="false" text="Tiedosto">
             <items>
               <MenuItem fx:id="menuTallenna" onAction="#handleTallenna" mnemonicParsing="false" text="Tallenna" />
-              <MenuItem fx:id="menuAvaa" onAction="#avaaReseptivihko" mnemonicParsing="false" text="Avaa..." />
-              <MenuItem fx:id="menuTulosta" onAction="#tulostaResepti" mnemonicParsing="false" text="Tulosta..." />
-              <MenuItem fx:id="menuLopeta" onAction="#lopeta" mnemonicParsing="false" text="Lopeta" />
+              <MenuItem fx:id="menuAvaa" onAction="#handleAvaaReseptivihko" mnemonicParsing="false" text="Avaa..." />
+              <MenuItem fx:id="menuTulosta" onAction="#handleTulostaResepti" mnemonicParsing="false" text="Tulosta..." />
+              <MenuItem fx:id="menuLopeta" onAction="#handleLopeta" mnemonicParsing="false" text="Lopeta" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Muokkaa">
@@ -35,8 +35,8 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Apua">
             <items>
-              <MenuItem fx:id="menuApua" onAction="#apua" mnemonicParsing="false" text="Apua..." />
-              <MenuItem fx:id="menuTietoja" onAction="#tietoja" mnemonicParsing="false" text="Tietoja..." />
+              <MenuItem fx:id="menuApua" onAction="#handleApua" mnemonicParsing="false" text="Apua..." />
+              <MenuItem fx:id="menuTietoja" onAction="#handleTietoja" mnemonicParsing="false" text="Tietoja..." />
             </items>
           </Menu>
         </menus>
@@ -48,7 +48,7 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" />
                </padding>
                <children>
-                  <Label text="Nimellä haku" />
+                  <Label text="Reseptin nimellä hakeminen" />
                   <TextField fx:id="textReseptiHaku" onKeyReleased="#handleHaeReseptit" text="*" />
                   <Label text="Ainesosahaku">
                      <padding>
@@ -56,13 +56,13 @@
                      </padding></Label>
                   <TextField fx:id="textAinesosaHaku" onKeyReleased="#handlePaivitaAinesosat" text="sukl" />
                   <ListChooser fx:id="chooserAinesosat" rivit="tumma suklaa&#10;maitosuklaa" VBox.vgrow="ALWAYS" />
-                  <Button fx:id="buttonAinesosatLisaaListalle" onAction="#handleLisaaAinesosaListalle" mnemonicParsing="false" text="Lisää" />
-                  <Label text="Valitut ainesosat">
+                  <Button fx:id="buttonAinesosatLisaaListalle" onAction="#handleLisaaAinesosaListalle" mnemonicParsing="false" text="Lisää hakuun" />
+                  <Label text="Hakuun valitut ainesosat">
                      <padding>
                         <Insets top="5.0" />
                      </padding></Label>
                   <ListChooser fx:id="chooserValitutAinesosat" layoutX="15.0" layoutY="94.0" rivit="voi" />
-                  <Button fx:id="buttonAinesosatPoistaListalta" onAction="#handlePoistaAinesosalistalta" layoutX="15.0" layoutY="52.0" mnemonicParsing="false" text="Poista" />
+                  <Button fx:id="buttonAinesosatPoistaListalta" text="Poista hausta" onAction="#handlePoistaAinesosalistalta" layoutX="15.0" layoutY="52.0" mnemonicParsing="false" />
                </children>
             </VBox>
             <VBox layoutX="10.0" layoutY="10.0" prefWidth="200.0">

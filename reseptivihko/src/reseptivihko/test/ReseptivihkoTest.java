@@ -2,13 +2,13 @@ package reseptivihko.test;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.junit.*;
 
-import fi.jyu.mit.ohj2.VertaaTiedosto;
 import reseptivihko.*;
 
 /**
@@ -213,8 +213,19 @@ public class ReseptivihkoTest {
     /**
      * Testaa tiedostojen tallentamista ja lukemista sekä tallennuskansion asettamista.
      */
+    @Test
     public void testTiedostot() {
-        VertaaTiedosto.tuhoaTiedosto("testi");
+        //Aiemmin jääneiden tiedostojen siivous.
+        File kansio = new File("testi");
+        LinkedList<File> tiedostot = new LinkedList<>();
+        tiedostot.add(new File(kansio, "reseptit.dat"));
+        tiedostot.add(new File(kansio, "ainesosat.dat"));
+        tiedostot.add(new File(kansio, "ainesosarivit.dat"));
+        tiedostot.forEach(tiedosto -> tiedosto.delete());
+        File piiloTiedosto = new File(kansio, "piilo.dat");
+        piiloTiedosto.delete();
+        kansio.delete();
+        
         this.vihko.asetaKansio("testi");
         this.vihko.tallenna();
         Reseptivihko uusiVihko = new Reseptivihko();
@@ -228,9 +239,75 @@ public class ReseptivihkoTest {
             assertEquals(String.format("Ainesosa %d ei ollut sama.", i), 
                     this.vihko.haeAinesosa(i).getNimi(), uusiVihko.haeAinesosa(i).getNimi());            
         }
-        Resepti uudenVihkonKakku = uusiVihko.haeReseptit("Mud cake", new LinkedList<Ainesosa>()).get(0);
-        Resepti tamanVihkonKakku = this.vihko.haeReseptit("Mud cake", new LinkedList<Ainesosa>()).get(0);
+        Resepti uudenVihkonKakku = uusiVihko.haeReseptit("Mud cake", new ArrayList<Ainesosa>()).get(0);
+        Resepti tamanVihkonKakku = this.vihko.haeReseptit("Mud cake", new ArrayList<Ainesosa>()).get(0);
         assertEquals("Luetun reseptin ID ei vastannut tallennettua", tamanVihkonKakku.getId(), uudenVihkonKakku.getId());
         assertEquals("Luetun reseptin ohje ei vastannut tallennettua", tamanVihkonKakku.getOhje(), uudenVihkonKakku.getOhje());
+
+        //Tiedostojen puuttumisen vaikutus lukemiseen.
+        uusiVihko = new Reseptivihko();
+        uusiVihko.asetaKansio("testi");
+        for (File tiedosto: tiedostot) {
+            tiedosto.renameTo(piiloTiedosto);
+            try { 
+                uusiVihko.lue();
+            } catch (VirheellinenSyottotietoException e) {
+                fail(String.format("Ei edes pitäisi yrittää lukea tiedostoja, koska %s puuttuu, mutta virhe tuli jostain syystä:\n%s",
+                        tiedosto.getName(), e.getMessage()));
+            }
+            assertEquals("Vihkosta ei pitäisi löytyä reseptejä.", 0,
+                    uusiVihko.haeReseptit("", new LinkedList<Ainesosa>()).size());
+            assertEquals("Vihkosta ei pitäisi löytyä ainesosia.", 0,
+                    uusiVihko.haeAinesosat("").size());
+            piiloTiedosto.renameTo(tiedosto);
+        }
+        //Tiedostojen siivous.
+        piiloTiedosto.delete();
+        tiedostot.forEach(tiedosto -> tiedosto.delete());
+        kansio.delete();
     }
+    
+    /**
+     * Testaa muuttuuko muutoksia metodin tulos kun tehdään muutoksia ja tallennetaan.
+     */
+    @Test
+    public void testMuutoksia() {
+        //Aiemmin jääneiden tiedostojen siivous.
+        File kansio = new File("testi");
+        LinkedList<File> tiedostot = new LinkedList<>();
+        tiedostot.add(new File(kansio, "reseptit.dat"));
+        tiedostot.add(new File(kansio, "ainesosat.dat"));
+        tiedostot.add(new File(kansio, "ainesosarivit.dat"));
+        tiedostot.add(kansio);
+        tiedostot.forEach(tiedosto -> tiedosto.delete());
+              
+        Reseptivihko uusiVihko = new Reseptivihko();
+        assertFalse("Juuri luodussa vihkossa ei pitäisi olla muutoksia.", uusiVihko.muutoksia());
+        uusiVihko.asetaKansio("testi");
+        assertTrue("Kansion asettaminen on muutos.", uusiVihko.muutoksia());
+        uusiVihko.tallenna();
+        assertFalse("Tallentamisen jälkeen ei ole tallentamattomia muutoksia.", 
+                uusiVihko.muutoksia());
+        uusiVihko.lisaa(new Ainesosa());
+        assertTrue("Ainesosan lisääminen on muutos.", uusiVihko.muutoksia());
+        try {
+            uusiVihko.lue();
+        } catch (VirheellinenSyottotietoException e) {
+            fail("Virhe lukiessa: " + e.getMessage());
+        }
+        assertFalse("Lukemisen jälkeen ei ole tallentamattomia muutoksia.", 
+                uusiVihko.muutoksia());
+        uusiVihko.lisaaAinesosa("maitosuklaata");
+        assertTrue("Ainesosan lisääminen on muutos.", uusiVihko.muutoksia());
+        uusiVihko.tallenna();
+        uusiVihko.lisaa(new Resepti());;
+        assertTrue("Reseptin lisääminen on muutos.", uusiVihko.muutoksia());
+        uusiVihko.tallenna();
+        uusiVihko.lisaa(new Ainesosarivi(1, 1, 3, "g"));
+        assertTrue("Ainesosarivin lisääminen on muutos.", uusiVihko.muutoksia());
+        
+        //Tiedostojen siivous.
+        tiedostot.forEach(tiedosto -> tiedosto.delete());
+    }
+    
 }

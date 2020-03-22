@@ -26,6 +26,9 @@ public class ReseptivihkoMain extends Application {
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Reseptivihko");
 			
+			primaryStage.setOnCloseRequest((event) -> {
+			    if ( !controllerGUI.saakoSulkea() ) event.consume();
+			    });
 			
 			Reseptivihko vihko = new Reseptivihko();
 			vihko.asetaKansio("oma");
