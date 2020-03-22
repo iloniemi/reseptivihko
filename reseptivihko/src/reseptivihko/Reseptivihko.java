@@ -81,7 +81,7 @@ public class Reseptivihko {
      */
     public ArrayList<Resepti> haeReseptit(String hakuteksti, Collection<Ainesosa> ainesosat) {
         String teksti = hakuteksti;
-        if (teksti.equals("")) teksti = "*";
+        if (teksti.length() == 0) teksti = "*";
         
         ArrayList<Resepti> palautettavat = this.reseptilista.haeReseptit(teksti);
         for (Ainesosa ainesosa: ainesosat) {
@@ -184,6 +184,26 @@ public class Reseptivihko {
         if (virheet.length() > 0) throw new VirheellinenSyottotietoException(virheet.toString());
     }
     
+    /** Yritää lisätä uuden Ainesosan. Ei lisää, jos löytyy samanniminen Ainesosa.
+     * @param nimi lisättävän Ainesosan nimi.
+     * @return lisättiinkö uusi Ainesosa.
+     */
+    public boolean lisaaAinesosa(String nimi) {
+        return this.ainesosalista.lisaa(nimi);
+    }
+
+    /** Poistaa annetun Ainesosan Reseptivihkosta, jos se ei ole käytössä 
+     * missään reseptissä.
+     * @param poistettava ainesosa.
+     * @return lista Reseptejä, joista löytyi kyseinen Ainesosa.
+     */
+    public ArrayList<Resepti> poistaAinesosa(Ainesosa poistettava) {
+        ArrayList<Ainesosa> poistettavaKokoelmassa = new ArrayList<Ainesosa>();
+        poistettavaKokoelmassa.add(poistettava);
+        ArrayList<Resepti> poistettavanReseptit = this.haeReseptit("", poistettavaKokoelmassa);
+        if (poistettavanReseptit.size() == 0) this.ainesosalista.poista(poistettava.getId());
+        return poistettavanReseptit;
+    }
 
     
     

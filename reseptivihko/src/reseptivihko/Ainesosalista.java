@@ -11,6 +11,8 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import apufunktioita.Apufunktioita;
+
 /** Ylläpitää listaa ainesosista
  * @author Juho
  * @version 9.3.2020
@@ -35,10 +37,15 @@ public class Ainesosalista {
     }
     
     /** Luo uuden Ainesosa -olion ja lisää sen listalle.
-     * @param nimi Uuden Ainesosan nimi
+     * @param nimi Uuden Ainesosan nimi.
+     * @return lisättiinkö uusi Ainesosa.
      */
-    public void lisaa(String nimi) {
-        this.lisaa(new Ainesosa(nimi));    
+    public boolean lisaa(String nimi) {
+        String karsittuNimi = Apufunktioita.rajuTrim(nimi);
+        for (Ainesosa ainesosa: this.ainesosat) 
+            if (ainesosa.getNimi().equalsIgnoreCase(karsittuNimi)) return false;
+        this.lisaa(new Ainesosa(karsittuNimi));
+        return true;
     }
     
     /** Palauttaa listan Ainesosia, joiden nimessä esiintyy hakuteksti.
@@ -48,13 +55,13 @@ public class Ainesosalista {
      * @return ArrayList hakua vastaavia Ainesosia
      */
     public ArrayList<Ainesosa> haeAinesosat(String hakuteksti) {
-        if ("".equals(hakuteksti)) return this.ainesosat;
+        if (hakuteksti.length() == 0) return this.ainesosat;
         
         String regex = ".*" + hakuteksti.replace("*", ".*") + ".*";
-        Pattern kuvio = Pattern.compile(regex);
+        Pattern kuvio = Pattern.compile(regex.toLowerCase());
         ArrayList<Ainesosa> palautettavat = new ArrayList<Ainesosa>();
         for (Ainesosa ainesosa: this.ainesosat) {
-            Matcher matcher = kuvio.matcher(ainesosa.getNimi());
+            Matcher matcher = kuvio.matcher(ainesosa.getNimi().toLowerCase());
             if (matcher.matches()) palautettavat.add(ainesosa);
         }
         palautettavat.sort(null);

@@ -3,6 +3,8 @@ package reseptivihko;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import apufunktioita.Apufunktioita;
+
 /** Ainesosa -luokka säilöö tiedon ainesosan id:stä ja nimestä. 
  * @author Juho
  * @version 1 Mar 2020
@@ -19,7 +21,7 @@ public class Ainesosa implements Comparable<Ainesosa> {
     public Ainesosa(String nimi) {
         this.id = SEURAAVA_ID;
         SEURAAVA_ID++;
-        this.nimi = nimi;
+        this.nimi = Apufunktioita.rajuTrim(nimi);
     }
     
     /** Luo Ainesosan.
@@ -40,8 +42,8 @@ public class Ainesosa implements Comparable<Ainesosa> {
         Matcher matcher = Pattern.compile(regex).matcher(tiedostorivi);
         if (!matcher.matches()) throw new VirheellinenSyottotietoException("Ainesosan tiedot väärässä muodossa");
         this.id = Integer.parseInt(matcher.group(1));
-        this.nimi = matcher.group(2);
-        if (this.id > SEURAAVA_ID) SEURAAVA_ID = this.id + 1;
+        this.nimi = Apufunktioita.rajuTrim(matcher.group(2));
+        if (this.id >= SEURAAVA_ID) SEURAAVA_ID = this.id + 1;
         return this;
     }
 

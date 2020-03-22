@@ -118,7 +118,7 @@ public class Resepti implements Comparable<Resepti> {
         if (!matcher.matches()) throw new VirheellinenSyottotietoException("Virheellinen reseptirivi!");
         
         this.asetaId(Integer.parseInt(matcher.group(1)));
-        this.setNimi(matcher.group(2));
+        this.setNimi(Apufunktioita.rajuTrim(matcher.group(2)));
         this.setOhje(matcher.group(3).replace('§', '\n'));
         return this;
     }

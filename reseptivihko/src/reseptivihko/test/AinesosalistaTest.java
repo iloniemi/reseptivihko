@@ -49,6 +49,10 @@ public class AinesosalistaTest {
         assertEquals("Ainesosa -olion lisääminen ei onistunut.", 2, this.lista.haeAinesosat("suklaata").size());
         this.lista.lisaa("maitosuklaata");
         assertEquals("Ainesosan nimen pohjalta uuden ainesosan lisääminen epäonnistui.", 3, this.lista.haeAinesosat("suklaata").size());
+        
+        this.lista.lisaa(" Perunaa  ");
+        assertEquals("Ainesosan nimen pitäisi olla karsittu.", 
+                "Perunaa", this.lista.haeAinesosat("Perunaa").get(0).getNimi());
     }
     
     /**
@@ -58,7 +62,7 @@ public class AinesosalistaTest {
     public void testHaeAinesosat() {
         assertEquals("Haun olisi pitänyt palauttaa kaikki 8 ", 8, this.lista.getAinesosat().size());
         assertEquals("Haun olisi pitänyt palauttaa kaikki 8 ", 8, this.lista.haeAinesosat("").size());
-        assertEquals("Haun olis pitänyt löytää vain tummaa suklaata", "tummaa suklaata", this.lista.haeAinesosat("suklaat").get(0).getNimi());
+        assertEquals("Haun olis pitänyt löytää vain tummaa suklaata", "tummaa suklaata", this.lista.haeAinesosat("suklaAt").get(0).getNimi());
         assertEquals("Haun \"ta\" olisi pitänyt palauttaa neljä Ainesosaa", 4, this.lista.haeAinesosat("ta").size());
     }
     

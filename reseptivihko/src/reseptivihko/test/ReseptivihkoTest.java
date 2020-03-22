@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 import org.junit.*;
 
@@ -156,6 +157,33 @@ public class ReseptivihkoTest {
         this.vihko.poistaResepti(tryffelit);
         assertEquals("Alustuksessa vikaa.", 0, this.vihko.haeRivit(tryffelit).size());
         assertEquals("Pitäisi olla vain mutakakku jäljellä", mutakakku, this.vihko.haeReseptit("*", new ArrayList<Ainesosa>()).get(0));
+    }
+    
+    /**
+     * Testaa Ainesosan lisäämistä Reseptivihkoon.
+     */
+    @Test
+    public void testLisaaAinesosa() {
+        assertFalse("Kermaa olisi pitänyt olla jo.", this.vihko.lisaaAinesosa("  Kermaa "));
+        assertTrue("Lisäyksen pitäisi toimia.", this.vihko.lisaaAinesosa("  perunaa"));
+        assertEquals("Ainesosan nimen pitäisi olla \"perunaa\"", 
+                "perunaa", this.vihko.haeAinesosat("perunaa").get(0).getNimi());
+    }
+    
+    /**
+     * Testaa Ainesosan poistamista Reseptivihosta
+     */
+    @Test
+    public void testPoistaAinesosa() {
+        Ainesosa kermaa = this.vihko.haeAinesosa(7);
+        List<Resepti> kermanReseptit = this.vihko.poistaAinesosa(kermaa);
+        Ainesosa uusiKermaa = this.vihko.haeAinesosa(7);
+        assertEquals("Kerman pitäisi vielä löytyä, koska sitä käytetään reseptissä",
+                kermaa, uusiKermaa);
+        this.vihko.poistaResepti(kermanReseptit.get(0));
+        this.vihko.poistaAinesosa(kermaa);
+        assertEquals("Ainesosan olisi pitänyt pystyä poistamaan, koska se ollut käytössä.",
+                null, this.vihko.haeAinesosa(7));
     }
     
     /**

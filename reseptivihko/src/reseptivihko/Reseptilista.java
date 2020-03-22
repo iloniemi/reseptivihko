@@ -136,10 +136,13 @@ public class Reseptilista {
      */
     public ArrayList<Resepti> haeReseptit(String hakusanat) {
         ArrayList<Resepti> palautettavat = new ArrayList<>();
-        String regex = Apufunktioita.rajuTrim(hakusanat).replace("*", ".*");
+        //Tarkistus erikoismerkkien varalta, etta kaaret eivat pilaa regexia.
+        //TODO: tarvitaanko muita merkkejä?
+        if (!hakusanat.matches("^[a-öA-Ö0-9\\*\\-]*$")) return palautettavat;
+        String regex = Apufunktioita.rajuTrim(hakusanat).replace("*", ".*").toLowerCase();
         Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
         for (int i = 0; i < this.lkm; i++) {
-            Matcher m = pattern.matcher(this.reseptit[i].getNimi());
+            Matcher m = pattern.matcher(this.reseptit[i].getNimi().toLowerCase());
             if (m.matches()) palautettavat.add(this.reseptit[i]);
         }
         palautettavat.sort(null);

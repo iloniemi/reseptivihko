@@ -52,7 +52,9 @@ public class ReseptivihkoGUILisaysController implements ModalControllerInterface
     
     @FXML
     private void handleMuokkaaAinesosat() {
-        ModalController.showModal(ReseptivihkoGUIController.class.getResource("ReseptivihkoGUIAinesosaView.fxml"), "Ainesosien muokkaus", null, "");
+        ModalController.showModal(ReseptivihkoGUIController.class
+                .getResource("ReseptivihkoGUIAinesosaView.fxml"), 
+                "Ainesosien muokkaus", null, this.vihko);
     }
     
     @FXML

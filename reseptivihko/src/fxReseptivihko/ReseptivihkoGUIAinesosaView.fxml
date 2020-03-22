@@ -9,7 +9,7 @@
 
 <VBox prefHeight="300.0" prefWidth="150.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxReseptivihko.ReseptivihkoGUIAinesosaController">
    <children>
-      <Button fx:id="buttonUusiAinesosa" mnemonicParsing="false" onAction="#uusiAinesosa" text="Lisää ainesosa">
+      <Button fx:id="buttonUusiAinesosa" mnemonicParsing="false" onAction="#handleUusiAinesosa" text="Lisää ainesosa">
          <VBox.margin>
             <Insets top="5.0" />
          </VBox.margin></Button>
@@ -17,12 +17,12 @@
          <VBox.margin>
             <Insets top="5.0" />
          </VBox.margin></Label>
-      <TextField fx:id="textAinesosa" onKeyReleased="#paivitaAinesosat" text="leivin">
+      <TextField fx:id="textAinesosa" onKeyReleased="#handlePaivitaAinesosat" text="leivin">
          <VBox.margin>
             <Insets />
          </VBox.margin></TextField>
       <ListChooser fx:id="chooserAinesosat" rivit="leivinjauhe" />
-      <Button fx:id="buttonPoistaAinesosa" layoutX="15.0" layoutY="10.0" mnemonicParsing="false" onAction="#poistaAinesosa" text="Poista ainesosa">
+      <Button fx:id="buttonPoistaAinesosa" onAction="#handlePoistaAinesosa" layoutX="15.0" layoutY="10.0" mnemonicParsing="false" text="Poista ainesosa">
          <VBox.margin>
             <Insets bottom="5.0" top="5.0" />
          </VBox.margin>

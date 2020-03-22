@@ -5,6 +5,8 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import apufunktioita.Apufunktioita;
+
 /**
  * Ainesosarivi -luokka yhdistää reseptin ja ainesosan sekä sailyttää tietoa
  * määrästä ja mittayksiköstä.
@@ -27,7 +29,7 @@ public class Ainesosarivi {
         this.reseptiId = reseptiId;
         this.ainesosaId = ainesosaId;
         this.maara = maara;
-        this.yksikko = yksikko;
+        this.yksikko = Apufunktioita.rajuTrim(yksikko);
     }
 
     /** Poimii Ainesosarivin tiedot merkkijonosta.
@@ -51,7 +53,7 @@ public class Ainesosarivi {
         this.setReseptiId(Integer.parseInt(matcher.group(1)));
         this.setAinesosaId(Integer.parseInt(matcher.group(2)));
         this.setMaara(Double.parseDouble(matcher.group(3)));
-        this.setYksikko(matcher.group(4));
+        this.setYksikko(Apufunktioita.rajuTrim(matcher.group(4)));
     }
 
     /** Palauttaa sen reseptin id:n, johon rivi kuuluu
