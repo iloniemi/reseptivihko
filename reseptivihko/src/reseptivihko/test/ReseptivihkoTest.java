@@ -27,7 +27,7 @@ public class ReseptivihkoTest {
      * vihon alustamiseen.
      */
     public void alustaOsat() {
-        String[] parsittavatAinesosat = {"1|tumma suklaata", "2|voita", 
+        String[] parsittavatAinesosat = {"1|tummaa suklaata", "2|voita", 
                 "3|kananmunia", "4|sokeria", "5|vehnäjauhoja", 
                 "6|leivinjauhetta", "7|kermaa", "8|kaakaojauhetta"};
         this.ainesosat = new  ArrayList<Ainesosa>();
@@ -211,6 +211,26 @@ public class ReseptivihkoTest {
     }
     
     /**
+     * Testaa Ainesosan hakemista Reseptivihosta
+     */
+    @Test
+    public void testReseptiMerkkijonona() {
+        StringBuilder tryffelit = new StringBuilder("Suklaatryffelit\n\n")
+                .append("tummaa suklaata    200.0 g\n")
+                .append("kermaa    100.0 g\n")
+                .append("voita    10.0 g\n")
+                .append("kaakaojauhetta    10.0 g\n\n")
+                .append("Kuumenna kerma kiehuvaksi.\n")
+                .append("Kaada kerma suklaan ja voin päälle.\n")
+                .append("Sekoita varovasti.\n")
+                .append("Mausta.\n")
+                .append("Muotoile käsissä.\n")
+                .append("Päällystä kaakaojauheella.");
+        assertEquals("Ainesosan id ei täsmännyt haun kanssa", tryffelit.toString(), 
+                this.vihko.reseptiMerkkijonona(this.reseptit.get(1)));
+    }
+    
+    /**
      * Testaa tiedostojen tallentamista ja lukemista sekä tallennuskansion asettamista.
      */
     @Test
@@ -284,7 +304,7 @@ public class ReseptivihkoTest {
         Reseptivihko uusiVihko = new Reseptivihko();
         assertFalse("Juuri luodussa vihkossa ei pitäisi olla muutoksia.", uusiVihko.muutoksia());
         uusiVihko.asetaKansio("testi");
-        assertTrue("Kansion asettaminen on muutos.", uusiVihko.muutoksia());
+        assertFalse("Kansion asettaminen ei muuta tilannetta.", uusiVihko.muutoksia());
         uusiVihko.tallenna();
         assertFalse("Tallentamisen jälkeen ei ole tallentamattomia muutoksia.", 
                 uusiVihko.muutoksia());

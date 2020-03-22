@@ -64,7 +64,7 @@ public class ReseptivihkoGUIController implements Initializable {
  
     @FXML
     private void handleTulostaResepti() {
-        Dialogs.showMessageDialog("Tämä toiminto ei ole vielä käytössä.");
+        tulostaResepti();
     }
 
     @FXML
@@ -79,7 +79,7 @@ public class ReseptivihkoGUIController implements Initializable {
     
     @FXML
     private void handleTietoja() {
-        Dialogs.showMessageDialog("Tämä toiminto ei ole vielä käytössä.");
+        ohjelmanTiedot();
     }
 
     @FXML
@@ -357,10 +357,8 @@ public class ReseptivihkoGUIController implements Initializable {
         setVihko(uusiVihko);
     }
     
-
-    
     /**
-     * Avataan suunnitelma selaimeeen.
+     * Avataan suunnitelman selaimeeen.
      */
     private void apua() {
         Desktop desktop = Desktop.getDesktop();
@@ -372,5 +370,25 @@ public class ReseptivihkoGUIController implements Initializable {
         } catch (IOException e) {
             return;
         }
+    }
+    
+    /**
+     * Avaa tulostusikkunan ja vie siihen valitun Reseptin tiedot.
+     */
+    private void tulostaResepti() {
+        if (this.valittuResepti == null) return;
+        ModalController.showModal(ReseptivihkoGUIController.class
+                .getResource("ReseptivihkoGUITulostusView.fxml"), "Reseptin tulostus", 
+                null, this.vihko.reseptiMerkkijonona(this.valittuResepti));
+    }
+    
+    /**
+     * Avaa ohjelman tiedot esittelevän ikkunan.
+     */
+    private void ohjelmanTiedot() {
+        String[] tiedot = {"Reseptivihko", "Versio 1.1", "Juho Iloniemi"};
+        ModalController.showModal(ReseptivihkoGUIController.class
+                .getResource("ReseptivihkoGUITietojaView.fxml"), "Tietoja", 
+                null, tiedot);
     }
 }

@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Locale;
 
 /** Reseptivihko -luokka, joka ylläpitää listoja Resepteistä, Ainesosista ja Ainesosariveistä.
  * Käyttöliittymät ovat yhteydessä tämän luokan olioihin.
@@ -55,6 +57,23 @@ public class Reseptivihko {
         this.muutoksia = true;
         this.rivilista.lisaa(rivi);
         
+    }
+    
+    /** Palauttaa Reseptin kaikki tiedot tulostusta varten.
+     * @param resepti jonka tiedot kootaan.
+     * @return resepti merkkijonona.
+     */
+    public String reseptiMerkkijonona(Resepti resepti) {
+        StringBuilder teksti = new StringBuilder();
+        teksti.append(resepti.getNimi()).append('\n').append('\n');
+        List<Ainesosarivi> rivit = this.haeRivit(resepti);
+        rivit.forEach(rivi -> {
+            teksti.append(String.format(Locale.US,"%s    %.1f %s\n", 
+                    this.haeAinesosa(rivi.getAinesosaId()).getNimi(),
+                    rivi.getMaara(), rivi.getYksikko()));
+        });
+        teksti.append('\n').append(resepti.getOhje());
+        return teksti.toString();
     }
 
     /** Lisää Ainesosan vihkon Ainesosalistalle.
@@ -152,7 +171,7 @@ public class Reseptivihko {
     public void asetaKansio(String kansio) {
         //TODO: Voisi lisätä oikeellisuustarkistuksen.
         this.tallennuskansio = new File(kansio);
-        this.muutoksia = true;
+
     }
     
     /**
@@ -161,7 +180,6 @@ public class Reseptivihko {
      */
     public void lue() throws VirheellinenSyottotietoException {
         //TODO: Voisi lisätä metodin, jolla kysyä listoilta tiedoston.
-        //TODO: uuden luodessa tämä ei aseta falseksi
         if ( !(new File(this.tallennuskansio, "reseptit.dat").exists()) 
                 || !(new File(this.tallennuskansio, "ainesosat.dat").exists())
                 || !(new File(this.tallennuskansio, "ainesosarivit.dat").exists()) ) return;
