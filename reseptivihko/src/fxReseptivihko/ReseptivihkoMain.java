@@ -44,6 +44,7 @@ public class ReseptivihkoMain extends Application {
 	 * @param args ei käytössä
 	 */
 	public static void main(String[] args) {
-		launch(args);
+	    //TODO: Argumenttina voisi antaa kansion, josta löytyy vihko, jonka haluaa avata.
+	    launch(args);
 	}
 }
