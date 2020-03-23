@@ -87,12 +87,18 @@ public class ReseptivihkoGUILisaysController implements ModalControllerInterface
     private Ainesosa valittuAinesosa = null;
 
 
+    /**
+     * TODO: Tee erillinen alusta metodi.
+     */
     @Override
     public void setDefault(Pair<Reseptivihko, Resepti> vihkoJaResepti) {
         this.vihko = vihkoJaResepti.getKey();
         this.resepti = vihkoJaResepti.getValue();
         textAreaTyoOhje.setText(this.resepti.getOhje());
         textReseptinNimi.setText(this.resepti.getNimi());
+        
+        textAinesosa.clear();
+        paivitaAinesosat();
         
         //TODO: Tästä funktio, koska mainissakin samanlainen?
         stringGridRivit.clear();
@@ -112,6 +118,10 @@ public class ReseptivihkoGUILisaysController implements ModalControllerInterface
         }
     }
 
+    /**
+     * Palauttaa muokatun parin joka sisältää vihkon ja this.reseptin, 
+     * jolla on id, jos ei ole painettu cancelia.
+     */
     @Override
     public Pair<Reseptivihko, Resepti> getResult() {
         Pair<Reseptivihko, Resepti> palautettava = new Pair<Reseptivihko, Resepti>(this.vihko, this.resepti);
@@ -137,10 +147,16 @@ public class ReseptivihkoGUILisaysController implements ModalControllerInterface
         }
     }
     
+    /**
+     * Poistaa viimeisimmän rivin StringGridistä.
+     */
     private void vahennaRiveja() {
         if (this.riveja > 0) this.riveja--;
     }
     
+    /**
+     * Lisää StringGridiin aineosarivin.
+     */
     private void lisaaAinesosarivi() {
         String[] osaset = new String[3];
         if (!(textMaara.getText().matches("^[0-9]+(((,|.)([0-9]*))?$)"))) return;
@@ -158,6 +174,9 @@ public class ReseptivihkoGUILisaysController implements ModalControllerInterface
         vahennaRiveja();
     }
     
+    /**
+     * @param riviNro poistettavan rivin numero.
+     */
     private void poistaRiviStringGridista(int riviNro) {
         ArrayList<Integer> luvut = new ArrayList<Integer>();
         ArrayList<String[]> solut = new ArrayList<String[]>();
@@ -177,6 +196,9 @@ public class ReseptivihkoGUILisaysController implements ModalControllerInterface
         }
     }
         
+    /**
+     * Päivittää ainesosia sisältävän chooserin vastaamaan hakutekstiä.
+     */
     private void paivitaAinesosat() {
         this.chooserAinesosat.clear();
         Collection<Ainesosa> ainesosat = this.vihko.haeAinesosat(this.textAinesosa.getText());

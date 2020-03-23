@@ -131,9 +131,6 @@ public class ReseptivihkoGUIController implements Initializable {
  //-----------------------------------------------------------------------------
  // Tästä eteenpäin ei käyttöliittymään suoraan liittyvää koodia
     
-    //TODO: lisää reseptin poistaminen
-    //TODO: aineosilla haku
-    
     
     private Reseptivihko vihko;
     private Resepti valittuResepti = null;
@@ -172,7 +169,7 @@ public class ReseptivihkoGUIController implements Initializable {
     private void paivitaReseptit() {
         chooserReseptit.clear();
         String hakuteksti = textReseptiHaku.getText();
-        //TODO: varmista, etta tama on toimiva menetelma 
+        //TODO: selvitä millä tästä errorista pääsee eroon. 
         ArrayList<Ainesosa> valitsimenAinesosat = chooserValitutAinesosat.getItems().stream()
             .map(stringJaObject -> stringJaObject.getObject())
             .collect(Collectors.toCollection(ArrayList::new));
