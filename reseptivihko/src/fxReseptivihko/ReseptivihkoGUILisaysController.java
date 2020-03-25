@@ -2,12 +2,16 @@ package fxReseptivihko;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+
 import fi.jyu.mit.fxgui.ListChooser;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import fi.jyu.mit.fxgui.StringGrid;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Control;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.util.Pair;
@@ -31,6 +35,7 @@ public class ReseptivihkoGUILisaysController implements ModalControllerInterface
     @FXML private Button buttonPoistaRivi;
     @FXML private StringGrid<Integer> stringGridRivit;
     @FXML private ListChooser<Ainesosa> chooserAinesosat;
+    @FXML private Label labelVirheet;
     
     
     
@@ -85,6 +90,7 @@ public class ReseptivihkoGUILisaysController implements ModalControllerInterface
     private Resepti resepti;
     private int riveja = 0;
     private Ainesosa valittuAinesosa = null;
+    private HashSet<Control> virheellisetOsaset = new HashSet<>();
 
 
     /**
@@ -106,7 +112,7 @@ public class ReseptivihkoGUILisaysController implements ModalControllerInterface
         if (reseptinRivit == null) return;
         for (Ainesosarivi ainesosarivi: reseptinRivit) {
             // Määrä tekstiksi
-            String maara = String.format("%.4f", ainesosarivi.getMaara());
+            String maara = String.format("%.2f", ainesosarivi.getMaara());
             //Haetaan ainesosa
             Ainesosa ainesosa = this.vihko.haeAinesosa(ainesosarivi.getAinesosaId());
             if (ainesosa == null) continue;
@@ -159,15 +165,36 @@ public class ReseptivihkoGUILisaysController implements ModalControllerInterface
      */
     private void lisaaAinesosarivi() {
         String[] osaset = new String[3];
-        if (!(textMaara.getText().matches("^[0-9]+(((,|.)([0-9]*))?$)"))) return;
-        if (this.valittuAinesosa == null) return;
+        //TODO: seuraus väärästä syötteestä
+        if (!(textMaara.getText().matches("^[0-9]+(((.)([0-9]*))?$)"))) {
+            asetaVirhe(textMaara, "Määrän pitää olla muotoa \"2\" tai \"2.4\"");
+            return;
+        }
+        poistaVirheIlmoitukset();
         osaset[0] = textMaara.getText();
+        
+        if (textYksikko.getText().length() == 0) {
+            asetaVirhe(textYksikko, "Yksikkö ei saa olla tyhjä.");
+            return;
+        }
+        poistaVirheIlmoitukset();
         osaset[1] = textYksikko.getText();
+        
+        if (this.valittuAinesosa == null) {
+            asetaVirhe(chooserAinesosat, "Muista valita ainesosa.");
+            return;
+        }
+        poistaVirheIlmoitukset();
         osaset[2] = this.valittuAinesosa.getNimi();
+        
         stringGridRivit.add(this.valittuAinesosa.getId(), osaset);
         this.riveja++;
     }
     
+    
+    /**
+     * Poistaa alimman ainesosarivin.
+     */
     private void poistaAinesosarivi() {
         //TODO: tarkista, etta getRowNr antaa oikean rivinumeron aina
         poistaRiviStringGridista(this.stringGridRivit.getRowNr());
@@ -200,11 +227,40 @@ public class ReseptivihkoGUILisaysController implements ModalControllerInterface
      * Päivittää ainesosia sisältävän chooserin vastaamaan hakutekstiä.
      */
     private void paivitaAinesosat() {
+        if (!textAinesosa.getText().matches("^[a-zA-ZÀ-ÿ0-9\\*\\-\\s]*$")) {
+            asetaVirhe(textAinesosa, "Hakuteksti ei saa sisältää muita erikoismerkkejä kuin \"*\" tai \"-\".");
+            return;
+        }
+        poistaVirheIlmoitukset();
+        
         this.chooserAinesosat.clear();
         Collection<Ainesosa> ainesosat = this.vihko.haeAinesosat(this.textAinesosa.getText());
         if (ainesosat == null) return;
         for (Ainesosa ainesosa: ainesosat) {
             this.chooserAinesosat.add(ainesosa.getNimi(), ainesosa);
         }
+    }
+    
+    /** Asettaa virhetekstin virheitä varten olevaan labeliin.
+     * Jos virheteksti on null, poistetaan teksti ja virhelabelin korostus.
+     * @param osa käyttöliittymän komponentti, jolle asetetaan virhetilamuotoilu.
+     * @param virheteksti teksti, joka näytetään käyttäjälle.
+     */
+    private void asetaVirhe(Control osanen, String virheteksti) {
+        osanen.getStyleClass().add("virhe");
+        this.virheellisetOsaset.add(osanen);
+        labelVirheet.setText(virheteksti);
+        labelVirheet.getStyleClass().add("korostus");
+    }
+    
+    /**
+     * Poistaa käyttöliittymäkomponenttien virhetilamuotoilut ja 
+     * virheilmoituksen virhelabelista.
+     */
+    private void poistaVirheIlmoitukset() {
+        this.virheellisetOsaset.forEach(osanen -> osanen.getStyleClass().removeAll("virhe"));
+        labelVirheet.setText("");
+        labelVirheet.getStyleClass().removeAll("korostus");
+        return;
     }
 }

@@ -8,6 +8,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -19,6 +20,7 @@ import fi.jyu.mit.fxgui.StringGrid;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -44,6 +46,7 @@ public class ReseptivihkoGUIController implements Initializable {
     @FXML private ListChooser<Ainesosa> chooserValitutAinesosat;
     @FXML private ListChooser<Ainesosa> chooserAinesosat;
     @FXML private Label labelReseptinNimi;
+    @FXML private Label labelVirheet;
     @FXML private TextArea textAreaTyoOhje;
     @FXML private StringGrid<Ainesosarivi> stringGridRivit;
 
@@ -108,8 +111,8 @@ public class ReseptivihkoGUIController implements Initializable {
     }
 
     @FXML
-    private void muokkaaReseptia() {
-        if (this.valittuResepti != null) reseptinKasittely(this.valittuResepti);
+    private void handleMuokkaaReseptia() {
+        muokkaaReseptia();
     }
     
     
@@ -134,6 +137,7 @@ public class ReseptivihkoGUIController implements Initializable {
     
     private Reseptivihko vihko;
     private Resepti valittuResepti = null;
+    private HashSet<Control> virheellisetOsaset = new HashSet<>();
     
     private void alusta() {
         valittuResepti = null;
@@ -169,6 +173,12 @@ public class ReseptivihkoGUIController implements Initializable {
     private void paivitaReseptit() {
         chooserReseptit.clear();
         String hakuteksti = textReseptiHaku.getText();
+        if (!hakuteksti.matches("^[a-zA-ZÀ-ÿ0-9\\*\\-\\s]*$")) {
+            asetaVirhe(textReseptiHaku, "Reseptin hakuteksti ei saa sisältää muita erikoismerkkejä kuin \"*\" tai \"-\"."); 
+            return;
+        }
+        poistaVirheIlmoitukset();
+        
         //TODO: selvitä millä tästä errorista pääsee eroon. 
         ArrayList<Ainesosa> valitsimenAinesosat = chooserValitutAinesosat.getItems().stream()
             .map(stringJaObject -> stringJaObject.getObject())
@@ -192,7 +202,12 @@ public class ReseptivihkoGUIController implements Initializable {
      */
     private void lisaaAinesosaListalle() {
         Ainesosa valittu = chooserAinesosat.getSelectedObject();
-        if (valittu == null) return;
+        if (valittu == null) {
+            asetaVirhe(chooserAinesosat, "Valitse ensin lisättävä ainesosa listalta.");
+            return;
+        }
+        poistaVirheIlmoitukset();
+        
         List<Ainesosa> valitut = chooserValitutAinesosat.getObjects();
         if (valitut == null) return;
         if (valitut.contains(valittu)) return;
@@ -205,7 +220,12 @@ public class ReseptivihkoGUIController implements Initializable {
      */
     private void poistaAinesosaListalta() {
         Ainesosa valittu = chooserValitutAinesosat.getSelectedObject();
-        if (valittu == null) return;
+        if (valittu == null) {
+            asetaVirhe(chooserValitutAinesosat, "Valitse ensin hakuehtolistalta ainesosa.");
+            return;
+        }
+        poistaVirheIlmoitukset();
+        
         List<Ainesosa> valitut = chooserValitutAinesosat.getObjects();
         valitut.removeIf(ainesosa -> ainesosa == valittu);
         chooserValitutAinesosat.clear();
@@ -217,6 +237,12 @@ public class ReseptivihkoGUIController implements Initializable {
      * Päivittää hakua varten näytettävät ainesosat.
      */
     private void paivitaAinesosat() {
+        if (!textAinesosaHaku.getText().matches("^[a-zA-ZÀ-ÿ0-9\\*\\-\\s]*$")) {
+            asetaVirhe(textAinesosaHaku, "Ainesosan hakuteksti ei saa sisältää muita erikoismerkkejä kuin \"*\" ja \"-\".");
+            return;
+        }
+        poistaVirheIlmoitukset();
+        
         chooserAinesosat.clear();
         ArrayList<Ainesosa> ainesosat = this.vihko.haeAinesosat(textAinesosaHaku.getText());
         for (Ainesosa ainesosa : ainesosat) chooserAinesosat.add(ainesosa.getNimi(), ainesosa);
@@ -267,9 +293,27 @@ public class ReseptivihkoGUIController implements Initializable {
      */
     private double kerroin() {
         double kerroin = 1.0;
-        try { kerroin = Double.parseDouble(textKerroin.getText());
-        } catch (NumberFormatException e) {e.getMessage();}
+        try { 
+            kerroin = Double.parseDouble(textKerroin.getText());
+            poistaVirheIlmoitukset();
+        } catch (NumberFormatException e) {
+            asetaVirhe(textKerroin, "Kertoimen kuuluu olla muotoa \"1\" tai \"2.4\".");    
+            e.getMessage();
+        }
         return kerroin;
+    }
+    
+    /**
+     * Avaa reseptinmuokkausikkunan.
+     */
+    private void muokkaaReseptia() {
+        if (this.valittuResepti == null) {
+            asetaVirhe(chooserReseptit, "Valitse ensin muokattava resepti.");
+            return;
+        }
+        poistaVirheIlmoitukset();
+        
+        reseptinKasittely(this.valittuResepti);
     }
     
     /** Avaa ikkunan Reseptin käsittelyä varten.
@@ -291,7 +335,12 @@ public class ReseptivihkoGUIController implements Initializable {
      * Poistaa valitun Reseptin.
      */
     private void poistaResepti() {
-        if (valittuResepti == null) return;
+        if (valittuResepti == null) {
+            asetaVirhe(chooserReseptit, "Valitse ensin poistettava resepti.");
+            return;
+        }
+        poistaVirheIlmoitukset();
+        
         if ( !Dialogs.showQuestionDialog("Poisto", "Poistetaanko " 
                 + this.valittuResepti.getNimi() + "?", "Kyllä", "Ei") ) return;
         this.vihko.poistaResepti(this.valittuResepti);
@@ -373,7 +422,12 @@ public class ReseptivihkoGUIController implements Initializable {
      * Avaa tulostusikkunan ja vie siihen valitun Reseptin tiedot.
      */
     private void tulostaResepti() {
-        if (this.valittuResepti == null) return;
+        if (this.valittuResepti == null) {
+            asetaVirhe(chooserReseptit, "Valitse ensin tulostettava resepti.");
+            return;
+        }
+        poistaVirheIlmoitukset();
+        
         ModalController.showModal(ReseptivihkoGUIController.class
                 .getResource("ReseptivihkoGUITulostusView.fxml"), "Reseptin tulostus", 
                 null, this.vihko.reseptiMerkkijonona(this.valittuResepti));
@@ -387,5 +441,30 @@ public class ReseptivihkoGUIController implements Initializable {
         ModalController.showModal(ReseptivihkoGUIController.class
                 .getResource("ReseptivihkoGUITietojaView.fxml"), "Tietoja", 
                 null, tiedot);
+    }
+    
+    
+    //TODO: asettamiset ja haut mahdollisesti palauttamaan virheilmoituksen.
+    /** Asettaa virhetekstin virheitä varten olevaan labeliin.
+     * Jos virheteksti on null, poistetaan teksti ja virhelabelin korostus.
+     * @param osa käyttöliittymän komponentti, jolle asetetaan virhetilamuotoilu.
+     * @param virheteksti teksti, joka näytetään käyttäjälle.
+     */
+    private void asetaVirhe(Control osanen, String virheteksti) {
+        osanen.getStyleClass().add("virhe");
+        this.virheellisetOsaset.add(osanen);
+        labelVirheet.setText(virheteksti);
+        labelVirheet.getStyleClass().add("korostus");
+    }
+    
+    /**
+     * Poistaa käyttöliittymäkomponenttien virhetilamuotoilut ja 
+     * virheilmoituksen virhelabelista.
+     */
+    private void poistaVirheIlmoitukset() {
+        this.virheellisetOsaset.forEach(osanen -> osanen.getStyleClass().removeAll("virhe"));
+        labelVirheet.setText("");
+        labelVirheet.getStyleClass().removeAll("korostus");
+        return;
     }
 }

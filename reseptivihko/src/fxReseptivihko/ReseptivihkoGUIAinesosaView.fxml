@@ -7,7 +7,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="300.0" prefWidth="150.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxReseptivihko.ReseptivihkoGUIAinesosaController">
+<VBox prefHeight="500.0" prefWidth="400.0" stylesheets="@reseptivihko.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxReseptivihko.ReseptivihkoGUIAinesosaController">
    <children>
       <Button fx:id="buttonUusiAinesosa" mnemonicParsing="false" onAction="#handleUusiAinesosa" text="Lisää ainesosa">
          <VBox.margin>
@@ -22,11 +22,12 @@
             <Insets />
          </VBox.margin></TextField>
       <ListChooser fx:id="chooserAinesosat" rivit="leivinjauhe" />
-      <Button fx:id="buttonPoistaAinesosa" onAction="#handlePoistaAinesosa" layoutX="15.0" layoutY="10.0" mnemonicParsing="false" text="Poista ainesosa">
+      <Button fx:id="buttonPoistaAinesosa" layoutX="15.0" layoutY="10.0" mnemonicParsing="false" onAction="#handlePoistaAinesosa" text="Poista ainesosa">
          <VBox.margin>
             <Insets bottom="5.0" top="5.0" />
          </VBox.margin>
       </Button>
+      <Label fx:id="labelVirheet" alignment="CENTER" contentDisplay="CENTER" />
    </children>
    <padding>
       <Insets bottom="5.0" left="5.0" right="5.0" />

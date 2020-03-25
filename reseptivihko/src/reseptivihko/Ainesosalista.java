@@ -59,7 +59,7 @@ public class Ainesosalista {
         ArrayList<Ainesosa> palautettavat = new ArrayList<Ainesosa>();
         //Tarkistus erikoismerkkien varalta, etta kaaret eivat pilaa regexia.
         //TODO: tarvitaanko muita merkkejä?
-        if (!hakuteksti.matches("^[a-öA-Ö0-9\\*\\-\\s]*$")) return palautettavat;
+        if (!hakuteksti.matches("^[a-zA-ZÀ-ÿ0-9\\*\\-\\s]*$")) return palautettavat;
         String regex = ".*" + hakuteksti.replace("*", ".*") + ".*";
         Pattern kuvio = Pattern.compile(regex.toLowerCase());
         for (Ainesosa ainesosa: this.ainesosat) {

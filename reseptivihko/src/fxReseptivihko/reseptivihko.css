@@ -1,1 +1,11 @@
-/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+.virhe {
+   /* @SuppressWarning */
+   -fx-background-color: red;
+ }
+
+.korostus {
+   /* @SuppressWarning */
+   -fx-border-color: red;
+   /* @SuppressWarning */
+   -fx-border-width: 2;
+ }
